@@ -1,0 +1,2 @@
+class PokemonFastMove < ApplicationRecord
+end

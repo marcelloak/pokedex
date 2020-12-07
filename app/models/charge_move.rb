@@ -1,0 +1,2 @@
+class ChargeMove < ApplicationRecord
+end
