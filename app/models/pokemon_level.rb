@@ -1,0 +1,2 @@
+class PokemonLevel < ApplicationRecord
+end
