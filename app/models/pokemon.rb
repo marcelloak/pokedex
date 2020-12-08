@@ -7,4 +7,6 @@ class Pokemon < ApplicationRecord
 
   has_many :pokemons
   has_many :forms
+  has_many :pokemon_charge_moves
+  has_many :pokemon_fast_moves
 end
