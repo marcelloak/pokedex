@@ -14,4 +14,6 @@ class Pokemon < ApplicationRecord
   has_many :shiny_timelines
   has_many :shadow_timelines
   has_many :shiny_shadow_timelines
+  has_many :special_days
+  has_many :raid_timelines
 end

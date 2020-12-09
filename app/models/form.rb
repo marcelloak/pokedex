@@ -6,4 +6,6 @@ class Form < ApplicationRecord
 
   has_many :form_timelines
   has_many :shiny_form_timelines
+  has_many :form_special_days
+  has_many :form_raid_timelines
 end
