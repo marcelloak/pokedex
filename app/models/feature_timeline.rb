@@ -1,0 +1,2 @@
+class FeatureTimeline < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class ItemTimeline < ApplicationRecord
+end
