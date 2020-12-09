@@ -7,6 +7,11 @@ class Pokemon < ApplicationRecord
 
   has_many :pokemons
   has_many :forms
+  has_many :costumes
   has_many :pokemon_charge_moves
   has_many :pokemon_fast_moves
+  has_many :pokemon_timelines
+  has_many :shiny_timelines
+  has_many :shadow_timelines
+  has_many :shiny_shadow_timelines
 end
