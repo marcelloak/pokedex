@@ -1,22 +1,19 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  get '/tables' => 'application#tables'
+
   namespace :api do
-    resources :generations do
-      resources :pokemons do
-        resources :forms
-      end
-    end
-    resources :fast_moves do
-      resources :pokemon_fast_moves
-    end
-    resources :charge_moves do
-      resources :pokemon_charge_moves
-    end
-    resources :types do
-      resources :type_interactions
-    end
+    resources :generations
     resources :families
+    resources :types
+    resources :type_interactions
+    resources :pokemons
+    resources :forms
+    resources :fast_moves
+    resources :charge_moves
+    resources :pokemon_fast_moves
+    resources :pokemon_charge_moves
     resources :pokemon_levels
     resources :medals
   end
