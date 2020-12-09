@@ -15,7 +15,8 @@ class CreatePokemonCaughtTimelines < ActiveRecord::Migration[5.2]
 
       t.timestamps
 
-      t.references :pokemon, foreign_key: true
+      t.references :current_evolution
+      t.references :target_evolution
       t.references :fast_move, foreign_key: true
       t.references :first_charge_move
       t.references :second_charge_move
