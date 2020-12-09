@@ -17,4 +17,5 @@ class Pokemon < ApplicationRecord
   has_many :special_days
   has_many :raid_timelines
   has_many :breakthrough_timelines
+  has_many :pokemon_caught_timelines
 end
