@@ -7,11 +7,16 @@ import Form from './components/Form'
 
 export default function App() {
   const [tables, setTables] = useState([])
+  const [timelineTables, setTimelineTables] = useState([])
 
   useEffect(() => {
     axios.get('/tables')
     .then((response) => {
       setTables(response.data)
+    })
+    axios.get('/timeline_tables')
+    .then((response) => {
+      setTimelineTables(response.data)
     })
   }, []);
 
@@ -21,12 +26,19 @@ export default function App() {
     })
   }
 
+  const timelineTableRoutes = function() {
+    return timelineTables.map((table, index) => {
+      return <Route key={index} path={`/${table.name}`} render={(props) => (<Form {...props} table={table} />)} />
+    })
+  }
+
   return (
     <Router>
-      <Nav />
+      <Nav/>
       <Switch>
-        <Route exact path="/" render={(props) => (<Home {...props} tables={tables} />)} />
+        <Route exact path="/" render={(props) => (<Home {...props} tables={tables} timelineTables={timelineTables} />)} />
         {tableRoutes()}
+        {timelineTableRoutes()}
       </Switch>
     </Router>
   )

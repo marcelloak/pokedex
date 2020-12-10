@@ -35,7 +35,7 @@ export default function Form(props) {
   const resetParams = function() {
     const newParams = {}
     props.table.columns.forEach((column) => {
-      newParams[column.name] = column.name.includes('_id') ? (foreignKeys[column.name][0] ? foreignKeys[column.name][0].id : null) : ''
+      newParams[column.name] = column.name.includes('_id') ? (foreignKeys[column.name] && foreignKeys[column.name][0] ? foreignKeys[column.name][0].id : null) : ''
     })
     setParams(newParams)
   }

@@ -10,11 +10,11 @@ export default function Home(props) {
     return splitStr.join(' '); 
   }
 
-  const tableLinks = function() {
-    return props.tables.map((table, index) => {
+  const links = function(tables) {
+    return tables.map((table) => table.name).sort().map((table, index) => {
       return (
         <Fragment key={index}>
-          <Link to={`/${table.name}`} >{titleCase(table.name)}</Link>
+          <Link to={`/${table}`} >{titleCase(table)}</Link>
           <br/>
         </Fragment>
       )
@@ -23,7 +23,10 @@ export default function Home(props) {
 
   return (
     <div className="home-page">
-      {tableLinks()}
+      <br/>
+      {links(props.tables)}
+      <br/>
+      {links(props.timelineTables)}
     </div>
   )
 }
