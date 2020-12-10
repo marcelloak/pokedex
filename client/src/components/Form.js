@@ -35,7 +35,7 @@ export default function Form(props) {
   const resetParams = function() {
     const newParams = {}
     props.table.columns.forEach((column) => {
-      newParams[column.name] = ''
+      newParams[column.name] = column.name.includes('_id') ? (foreignKeys[column.name][0] ? foreignKeys[column.name][0].id : null) : ''
     })
     setParams(newParams)
   }
@@ -128,15 +128,36 @@ export default function Form(props) {
     })
   }
 
+  const getRecordRows = function() {
+    return (<table>
+      <thead>
+        <tr>
+          {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
+            return <th key={index}>{titleCase(column.name)}</th>
+          })}
+        </tr>
+      </thead>
+      <tbody>
+        {records.map((record, index) => {
+          return (
+            <tr key={index}>
+              {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column,index) => {
+                return <td key={index}>{record[column.name]}</td>
+              })}
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>)
+  }
+
   return (
     <Fragment>
-      {records.map((record, index) => {
-        return <p key={index}>{record.name || ''}</p>
-      })}
       <form onSubmit={submitHandler} className={`${props.table.name}-form`}>
         {paramFields()}
         <Button variant="outlined" style={{ fontSize: '1em', fontWeight: 'bolder' }} onClick={clickHandler}>Submit</Button>
       </form>
+      {getRecordRows()}
     </Fragment>
   )
 }
