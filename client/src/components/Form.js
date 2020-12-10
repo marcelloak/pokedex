@@ -74,7 +74,6 @@ export default function Form(props) {
   }
 
   const paramFields = function() {
-    console.log(props.table.columns)
     const columns = props.table.columns.filter((column) => {
       return column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at'
     })
@@ -98,6 +97,24 @@ export default function Form(props) {
           <Fragment key={index}>
             <label htmlFor={column.name}>{titleCase(column.name)}</label>
             <input type="checkbox" name={column.name} value={params[column.name] || ''} onChange={onChange} />
+            <br/>
+          </Fragment>
+        )
+      }
+      else if (column.sql_type_metadata.type === "datetime") {
+        const now = new Date();
+        const defaultDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate() > 9 ? '' : 0}${now.getDate()}`
+        return (
+          <Fragment key={index}>
+            <TextField
+              id="date"
+              label={titleCase(column.name)}
+              type="date"
+              defaultValue={defaultDate}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
             <br/>
           </Fragment>
         )
