@@ -1,13 +1,13 @@
 class ApplicationController < ActionController::API
   def tables
-    tables = ActiveRecord::Base.connection.tables.select { |table| table != 'schema_migrations' && table != 'ar_internal_metadata' && !table.include?('timeline') }
+    tables = ActiveRecord::Base.connection.tables.select { |table| table != 'schema_migrations' && table != 'ar_internal_metadata' && !table.include?('timeline') && !table.include?('special_day') && !table.include?('limit') }
     tables = tables.map { |table| { name: table, columns: ActiveRecord::Base.connection.columns(table), foreign_keys: foreign_keys(table) } }
 
     render :json => tables
   end
 
   def timeline_tables
-    tables = ActiveRecord::Base.connection.tables.select { |table| table != 'schema_migrations' && table != 'ar_internal_metadata' && table.include?('timeline') }
+    tables = ActiveRecord::Base.connection.tables.select { |table| table != 'schema_migrations' && table != 'ar_internal_metadata' && (table.include?('timeline') || table.include?('special_day') || table.include?('limit')) }
     tables = tables.map { |table| { name: table, columns: ActiveRecord::Base.connection.columns(table), foreign_keys: foreign_keys(table) } }
 
     render :json => tables
