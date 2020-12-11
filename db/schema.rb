@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_182850) do
     t.string "name"
     t.datetime "started"
     t.integer "level"
+    t.float "stardust"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -219,6 +220,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_182850) do
     t.integer "defence"
     t.integer "stamina"
     t.float "level"
+    t.string "gender"
     t.boolean "shadow"
     t.boolean "purified"
     t.boolean "shiny"
