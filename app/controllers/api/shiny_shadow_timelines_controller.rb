@@ -1,4 +1,4 @@
-class Api::ShinyShinyShadowTimelinesController < ApplicationController
+class Api::ShinyShadowTimelinesController < ApplicationController
   def index
     shiny_shadow_timelines = ShinyShadowTimeline.all
 

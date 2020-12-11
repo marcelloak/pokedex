@@ -1,4 +1,4 @@
-class Api::PokemonPokemonChargeMovesController < ApplicationController
+class Api::PokemonChargeMovesController < ApplicationController
   def index
     pokemon_charge_moves = PokemonChargeMove.all
 
