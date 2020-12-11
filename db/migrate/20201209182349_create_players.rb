@@ -4,6 +4,7 @@ class CreatePlayers < ActiveRecord::Migration[5.2]
       t.string :name
       t.datetime :started
       t.integer :level
+      t.float :stardust
 
       t.timestamps
     end
