@@ -1,7 +1,31 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
+kanto  = Generation.create({ name: 'Kanto' })
+johto  = Generation.create({ name: 'Johto' })
+hoenn  = Generation.create({ name: 'Hoenn' })
+sinnoh  = Generation.create({ name: 'Sinnoh' })
+unova  = Generation.create({ name: 'Unova' })
+kalos  = Generation.create({ name: 'Kalos' })
+alola  = Generation.create({ name: 'Alola' })
+galar  = Generation.create({ name: 'Galar' })
+
+normal = Type.create({ name: 'Normal' })
+fighting = Type.create({ name: 'Fighting' })
+flying = Type.create({ name: 'Flying' })
+poison = Type.create({ name: 'Poison' })
+ground = Type.create({ name: 'Ground' })
+rock = Type.create({ name: 'Rock' })
+bug = Type.create({ name: 'Bug' })
+ghost = Type.create({ name: 'Ghost' })
+fire = Type.create({ name: 'Fire' })
+water = Type.create({ name: 'Water' })
+grass = Type.create({ name: 'Grass' })
+electric = Type.create({ name: 'Electric' })
+psychic = Type.create({ name: 'Psychic' })
+ice = Type.create({ name: 'Ice' })
+dragon = Type.create({ name: 'Dragon' })
+dark = Type.create({ name: 'Dark' })
+steel = Type.create({ name: 'Steel' })
+fairy = Type.create({ name: 'Fairy' })
