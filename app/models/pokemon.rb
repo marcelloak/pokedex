@@ -18,4 +18,5 @@ class Pokemon < ApplicationRecord
   has_many :raid_timelines
   has_many :breakthrough_timelines
   has_many :pokemon_caught_timelines
+  has_many :event_pokemons
 end

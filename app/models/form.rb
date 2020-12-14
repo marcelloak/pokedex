@@ -8,4 +8,5 @@ class Form < ApplicationRecord
   has_many :shiny_form_timelines
   has_many :form_special_days
   has_many :form_raid_timelines
+  has_many :form_event_pokemons
 end
