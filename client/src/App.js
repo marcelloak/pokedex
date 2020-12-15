@@ -6,6 +6,7 @@ import Nav from './components/Nav'
 import Form from './components/Form'
 import Database from './components/Database'
 import Pokedex from './components/Pokedex'
+import TypeChart from './components/pokedex/TypeChart'
 
 export default function App() {
   const [tables, setTables] = useState([])
@@ -55,6 +56,7 @@ export default function App() {
         {timelineTableRoutes()}
         {caughtTableRoutes()}
         <Route exact path="/pokedex" component={Pokedex} />
+        <Route exact path="/pokedex/type_chart" component={TypeChart} />
       </Switch>
     </Router>
   )
