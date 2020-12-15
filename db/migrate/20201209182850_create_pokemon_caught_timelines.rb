@@ -5,7 +5,8 @@ class CreatePokemonCaughtTimelines < ActiveRecord::Migration[5.2]
       t.integer :attack
       t.integer :defence
       t.integer :stamina
-      t.float :level
+      t.float :current_level
+      t.float :target_level
       t.string :gender
       t.boolean :shadow
       t.boolean :purified
