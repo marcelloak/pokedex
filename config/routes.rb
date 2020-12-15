@@ -48,6 +48,10 @@ Rails.application.routes.draw do
     resources :costume_special_days
 
     resources :pokemon_caught_timelines
+    resources :form_caught_timelines
+    resources :costume_caught_timelines
+
+    get '/type_chart' => 'type_interactions#type_chart'
   end
 
   get '*path', to: "static_pages#fallback_index_html", constraints: ->(request) do

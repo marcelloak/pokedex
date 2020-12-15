@@ -44,6 +44,12 @@ class Api::TypeInteractionsController < ApplicationController
     }
   end
 
+  def type_chart
+    interactions = Type.all.map { |type| TypeInteraction.where(attacking_type_id: type.id).order(:defending_type_id).to_a.unshift(type)}
+
+    render :json => interactions
+  end
+
   private
     def type_interaction_params
       params.permit(:multiplier, :attacking_type_id, :defending_type_id)
