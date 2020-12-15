@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_09_182850) do
+ActiveRecord::Schema.define(version: 2020_12_15_164237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,48 @@ ActiveRecord::Schema.define(version: 2020_12_09_182850) do
     t.datetime "updated_at", null: false
     t.bigint "type_id"
     t.index ["type_id"], name: "index_charge_moves_on_type_id"
+  end
+
+  create_table "costume_caught_timelines", force: :cascade do |t|
+    t.datetime "caught"
+    t.integer "attack"
+    t.integer "defence"
+    t.integer "stamina"
+    t.float "current_level"
+    t.float "target_level"
+    t.string "gender"
+    t.boolean "shadow"
+    t.boolean "purified"
+    t.boolean "shiny"
+    t.boolean "lucky"
+    t.boolean "charge_move_unlocked"
+    t.datetime "transferred"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "current_costume_id"
+    t.bigint "target_costume_id"
+    t.bigint "fast_move_id"
+    t.bigint "first_charge_move_id"
+    t.bigint "second_charge_move_id"
+    t.bigint "original_owner_id"
+    t.bigint "current_owner_id"
+    t.index ["current_costume_id"], name: "index_costume_caught_timelines_on_current_costume_id"
+    t.index ["current_owner_id"], name: "index_costume_caught_timelines_on_current_owner_id"
+    t.index ["fast_move_id"], name: "index_costume_caught_timelines_on_fast_move_id"
+    t.index ["first_charge_move_id"], name: "index_costume_caught_timelines_on_first_charge_move_id"
+    t.index ["original_owner_id"], name: "index_costume_caught_timelines_on_original_owner_id"
+    t.index ["second_charge_move_id"], name: "index_costume_caught_timelines_on_second_charge_move_id"
+    t.index ["target_costume_id"], name: "index_costume_caught_timelines_on_target_costume_id"
+  end
+
+  create_table "costume_event_pokemons", force: :cascade do |t|
+    t.string "method"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "costume_id"
+    t.bigint "event_timeline_id"
+    t.index ["costume_id"], name: "index_costume_event_pokemons_on_costume_id"
+    t.index ["event_timeline_id"], name: "index_costume_event_pokemons_on_event_timeline_id"
   end
 
   create_table "costume_raid_timelines", force: :cascade do |t|
@@ -78,6 +120,16 @@ ActiveRecord::Schema.define(version: 2020_12_09_182850) do
     t.index ["pokemon_id"], name: "index_costumes_on_pokemon_id"
   end
 
+  create_table "event_pokemons", force: :cascade do |t|
+    t.string "method"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "pokemon_id"
+    t.bigint "event_timeline_id"
+    t.index ["event_timeline_id"], name: "index_event_pokemons_on_event_timeline_id"
+    t.index ["pokemon_id"], name: "index_event_pokemons_on_pokemon_id"
+  end
+
   create_table "event_timelines", force: :cascade do |t|
     t.string "name"
     t.datetime "start"
@@ -111,6 +163,48 @@ ActiveRecord::Schema.define(version: 2020_12_09_182850) do
     t.datetime "released"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "form_caught_timelines", force: :cascade do |t|
+    t.datetime "caught"
+    t.integer "attack"
+    t.integer "defence"
+    t.integer "stamina"
+    t.float "current_level"
+    t.float "target_level"
+    t.string "gender"
+    t.boolean "shadow"
+    t.boolean "purified"
+    t.boolean "shiny"
+    t.boolean "lucky"
+    t.boolean "charge_move_unlocked"
+    t.datetime "transferred"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "current_form_id"
+    t.bigint "target_form_id"
+    t.bigint "fast_move_id"
+    t.bigint "first_charge_move_id"
+    t.bigint "second_charge_move_id"
+    t.bigint "original_owner_id"
+    t.bigint "current_owner_id"
+    t.index ["current_form_id"], name: "index_form_caught_timelines_on_current_form_id"
+    t.index ["current_owner_id"], name: "index_form_caught_timelines_on_current_owner_id"
+    t.index ["fast_move_id"], name: "index_form_caught_timelines_on_fast_move_id"
+    t.index ["first_charge_move_id"], name: "index_form_caught_timelines_on_first_charge_move_id"
+    t.index ["original_owner_id"], name: "index_form_caught_timelines_on_original_owner_id"
+    t.index ["second_charge_move_id"], name: "index_form_caught_timelines_on_second_charge_move_id"
+    t.index ["target_form_id"], name: "index_form_caught_timelines_on_target_form_id"
+  end
+
+  create_table "form_event_pokemons", force: :cascade do |t|
+    t.string "method"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "form_id"
+    t.bigint "event_timeline_id"
+    t.index ["event_timeline_id"], name: "index_form_event_pokemons_on_event_timeline_id"
+    t.index ["form_id"], name: "index_form_event_pokemons_on_form_id"
   end
 
   create_table "form_raid_timelines", force: :cascade do |t|
@@ -448,12 +542,20 @@ ActiveRecord::Schema.define(version: 2020_12_09_182850) do
 
   add_foreign_key "breakthrough_timelines", "pokemons"
   add_foreign_key "charge_moves", "types"
+  add_foreign_key "costume_caught_timelines", "fast_moves"
+  add_foreign_key "costume_event_pokemons", "costumes"
+  add_foreign_key "costume_event_pokemons", "event_timelines"
   add_foreign_key "costume_raid_timelines", "costumes"
   add_foreign_key "costume_special_days", "costumes"
   add_foreign_key "costume_special_days", "special_day_types"
   add_foreign_key "costume_timelines", "costumes"
   add_foreign_key "costumes", "pokemons"
+  add_foreign_key "event_pokemons", "event_timelines"
+  add_foreign_key "event_pokemons", "pokemons"
   add_foreign_key "fast_moves", "types"
+  add_foreign_key "form_caught_timelines", "fast_moves"
+  add_foreign_key "form_event_pokemons", "event_timelines"
+  add_foreign_key "form_event_pokemons", "forms"
   add_foreign_key "form_raid_timelines", "forms"
   add_foreign_key "form_special_days", "forms"
   add_foreign_key "form_special_days", "special_day_types"
