@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get '/tables' => 'application#tables'
   get '/timeline_tables' => 'application#timeline_tables'
+  get '/caught_tables' => 'application#caught_tables'
 
   namespace :api do
     resources :players
