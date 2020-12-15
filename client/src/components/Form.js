@@ -142,7 +142,7 @@ export default function Form(props) {
           return (
             <tr key={index}>
               {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column,index) => {
-                return <td key={index}>{record[column.name].includes('.png') ? <img src={record[column.name]} alt={record[column.name]} width={30} height={30}/> : record[column.name]}</td>
+                return <td key={index}>{String(record[column.name]).includes('.png') ? <img src={record[column.name]} alt={record[column.name]} width={30} height={30}/> : record[column.name]}</td>
               })}
             </tr>
           )
