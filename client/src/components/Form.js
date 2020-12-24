@@ -128,6 +128,12 @@ export default function Form(props) {
     })
   }
 
+  const deleteRecord = function(id) {
+    axios.delete(`/api/${props.table.name}/${id}`)
+    .then(() => axios.get(`/api/${props.table.name}`))
+    .then((response) => setRecords(response.data))
+  }
+
   const getRecordRows = function() {
     return (<table>
       <thead>
@@ -135,6 +141,7 @@ export default function Form(props) {
           {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
             return <th key={index}>{titleCase(column.name)}</th>
           })}
+          <th key={props.table.columns.length + 1}>Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -144,6 +151,7 @@ export default function Form(props) {
               {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column,index) => {
                 return <td key={index}>{String(record[column.name]).includes('.png') ? <img src={record[column.name]} alt={record[column.name]} width={30} height={30}/> : record[column.name]}</td>
               })}
+              <td key={props.table.columns.length + 1} onClick={() => deleteRecord(record.id)}>Delete</td>
             </tr>
           )
         })}
