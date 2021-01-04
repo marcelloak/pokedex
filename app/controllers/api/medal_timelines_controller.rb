@@ -46,6 +46,6 @@ class Api::MedalTimelinesController < ApplicationController
 
   private
     def medal_timeline_params
-      params.permit(:release, :medal_id)
+      params.permit(:released, :medal_id)
     end
 end
