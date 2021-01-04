@@ -34,20 +34,25 @@ export default function Form(props) {
   }
 
   const resetParams = function() {
+    const newParams = {}
     if (editing !== false) {
       for (const record of records) {
-        if (record.id === editing) setParams(record)
+        if (record.id === editing) {
+          props.table.columns.forEach((column) => {
+            if (column.name.includes('_id')) newParams[column.name] = record[column.name].id
+            else newParams[column.name] = record[column.name]
+          })
+        }
       }
     }
     else {
-      const newParams = {}
       props.table.columns.forEach((column) => {
         if (column.name.includes('_id')) {
           if (foreignKeys[column.name] && foreignKeys[column.name][0]) {
             if (params[column.name]) newParams[column.name] = params[column.name]
             else newParams[column.name] = foreignKeys[column.name][0].id
           }
-          else newParams[column.name] = null
+          else newParams[column.name] = ''
         }
         else if (column.sql_type_metadata.type === "datetime") {
           const now = new Date();
@@ -58,8 +63,8 @@ export default function Form(props) {
         }
         else newParams[column.name] = ''
       })
-      setParams(newParams)
     }
+    setParams(newParams)
   }
 
   useEffect(() => {
@@ -119,8 +124,8 @@ export default function Form(props) {
         return (
           <Fragment key={index}>
             <label htmlFor={column.name}>{titleCase(column.name)}: </label>
-            <select onChange={onChange} name={column.name}>
-              <option key={-1} value={null}>None</option>
+            <select onChange={onChange} name={column.name} value={params[column.name]}>
+              <option key={-1} value={''} >None</option>
               {foreignKeys[column.name].map ((key, index) =>{
                 return <option key={index} value={key.id}>{key.name}</option>
               })}
@@ -188,7 +193,12 @@ export default function Form(props) {
           return (
             <tr key={index}>
               {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
-                return <td key={index}>{String(record[column.name]).includes('.png') ? <img src={record[column.name]} alt={record[column.name]} width={30} height={30}/> : (column.sql_type_metadata.type === "datetime" && record[column.name] ? record[column.name].split('T')[0] : record[column.name])}</td>
+                if (String(record[column.name]).includes('.png')) return <td key={index}><img src={record[column.name]} alt={record[column.name]} width={30} height={30}/></td>
+                else if (String(column.name).includes('_id'))  {
+                  if (String(record[column.name].name).includes('.png')) return <td key={index}><img src={record[column.name].name} alt={record[column.name].name} width={30} height={30}/></td>
+                  else return <td key={index}>{record[column.name].name}</td>
+                }
+                else return <td key={index}>{column.sql_type_metadata.type === "datetime" && record[column.name] ? record[column.name].split('T')[0] : record[column.name]}</td>
               })}
               <td key={props.table.columns.length} onClick={() => setEditing(record.id)}>Edit</td>
               <td key={props.table.columns.length + 1} onClick={() => deleteRecord(record.id)}>Delete</td>
