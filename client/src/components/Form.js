@@ -42,7 +42,21 @@ export default function Form(props) {
     else {
       const newParams = {}
       props.table.columns.forEach((column) => {
-        newParams[column.name] = column.name.includes('_id') ? (foreignKeys[column.name] && foreignKeys[column.name][0] ? (params[column.name] ? params[column.name] : foreignKeys[column.name][0].id) : null) : ''
+        if (column.name.includes('_id')) {
+          if (foreignKeys[column.name] && foreignKeys[column.name][0]) {
+            if (params[column.name]) newParams[column.name] = params[column.name]
+            else newParams[column.name] = foreignKeys[column.name][0].id
+          }
+          else newParams[column.name] = null
+        }
+        else if (column.sql_type_metadata.type === "datetime") {
+          const now = new Date();
+          newParams[column.name] = `${now.getFullYear()}-${now.getMonth() + 1 > 9 ? '' : 0}${now.getMonth() + 1}-${now.getDate() > 9 ? '' : 0}${now.getDate()}`
+        }
+        else if (column.sql_type_metadata.type === "boolean") {
+          newParams[column.name] = false
+        }
+        else newParams[column.name] = ''
       })
       setParams(newParams)
     }
@@ -126,14 +140,15 @@ export default function Form(props) {
       }
       else if (column.sql_type_metadata.type === "datetime") {
         const now = new Date();
-        const defaultDate = `${now.getFullYear()}-${now.getMonth() + 1 > 9 ? '' : 0}${now.getMonth() + 1}-${now.getDate() > 9 ? '' : 0}${now.getDate()}`
         return (
           <Fragment key={index}>
             <TextField
               id="date"
+              name={column.name}
               label={titleCase(column.name)}
+              onChange={onChange}
               type="date"
-              defaultValue={defaultDate}
+              defaultValue={`${now.getFullYear()}-${now.getMonth() + 1 > 9 ? '' : 0}${now.getMonth() + 1}-${now.getDate() > 9 ? '' : 0}${now.getDate()}`}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -172,8 +187,8 @@ export default function Form(props) {
         {records.map((record, index) => {
           return (
             <tr key={index}>
-              {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column,index) => {
-                return <td key={index}>{String(record[column.name]).includes('.png') ? <img src={record[column.name]} alt={record[column.name]} width={30} height={30}/> : record[column.name]}</td>
+              {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
+                return <td key={index}>{String(record[column.name]).includes('.png') ? <img src={record[column.name]} alt={record[column.name]} width={30} height={30}/> : (column.sql_type_metadata.type === "datetime" && record[column.name] ? record[column.name].split('T')[0] : record[column.name])}</td>
               })}
               <td key={props.table.columns.length} onClick={() => setEditing(record.id)}>Edit</td>
               <td key={props.table.columns.length + 1} onClick={() => deleteRecord(record.id)}>Delete</td>
