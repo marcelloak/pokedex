@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import axios from 'axios'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from './components/Home'
 import Nav from './components/Nav'
 import Form from './components/Form'
 import Database from './components/Database'
@@ -40,7 +39,6 @@ export default function App() {
     <Router>
       <Nav/>
       <Switch>
-        <Route exact path="/" component={Home} />
         <Route exact path="/database" render={(props) => (<Database {...props} tables={[caughtTables, tables, timelineTables]} timelineTables={timelineTables} caughtTables={caughtTables} />)} />
         {tableRoutes(tables)}
         {tableRoutes(timelineTables)}
