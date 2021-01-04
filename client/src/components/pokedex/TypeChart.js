@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react"
 import axios from 'axios'
 
+import './TypeChart.css'
+
 export default function TypeChart() {
   const [typeInteractions, setTypeInteractions] = useState([])
 
@@ -26,7 +28,11 @@ export default function TypeChart() {
           return (
             <tr key={index}>
               {type.map((interaction, index) => {
-                return <td key={index}>{index ? interaction.multiplier : <img src={interaction.icon} alt={interaction.name} width={30} height={30}/>}</td>
+                let bgColor = 'white';
+                if (interaction.multiplier === 2) bgColor = 'green'
+                else if (interaction.multiplier === 0.25) bgColor = 'grey'
+                else if (interaction.multiplier === 0.5) bgColor = 'red'
+                return <td key={index} style={{backgroundColor: bgColor}} >{index ? interaction.multiplier : <img src={interaction.icon} alt={interaction.name} width={30} height={30}/>}</td>
               })}
             </tr>
           )
