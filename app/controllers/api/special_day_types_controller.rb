@@ -1,6 +1,6 @@
 class Api::SpecialDayTypesController < ApplicationController
   def index
-    special_day_types = SpecialDayType.all
+    special_day_types = SpecialDayType.all.order(:id)
 
     render :json => special_day_types
   end

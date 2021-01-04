@@ -1,6 +1,6 @@
 class Api::SpecialLeagueTypeLimitsController < ApplicationController
   def index
-    special_league_type_limits = SpecialLeagueTypeLimit.all
+    special_league_type_limits = SpecialLeagueTypeLimit.all.order(:id)
 
     render :json => special_league_type_limits
   end

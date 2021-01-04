@@ -1,6 +1,6 @@
 class Api::TypeInteractionsController < ApplicationController
   def index
-    type_interactions = TypeInteraction.all.order(:attacking_type_id, :defending_type_id)
+    type_interactions = TypeInteraction.all.order(:id).order(:attacking_type_id, :defending_type_id)
     type_interactions = type_interactions.map { |type| { multiplier: type[:multiplier], attacking_type_id: Type.find(type[:attacking_type_id])[:icon], defending_type_id: Type.find(type[:defending_type_id])[:icon] } }
 
     render :json => type_interactions

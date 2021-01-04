@@ -1,6 +1,6 @@
 class Api::CostumeSpecialDaysController < ApplicationController
   def index
-    costume_special_days = CostumeSpecialDay.all
+    costume_special_days = CostumeSpecialDay.all.order(:id)
 
     render :json => costume_special_days
   end

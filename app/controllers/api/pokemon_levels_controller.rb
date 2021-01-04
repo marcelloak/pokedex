@@ -1,6 +1,6 @@
 class Api::PokemonLevelsController < ApplicationController
   def index
-    pokemon_levels = PokemonLevel.all
+    pokemon_levels = PokemonLevel.all.order(:id)
 
     render :json => pokemon_levels
   end

@@ -1,6 +1,6 @@
 class Api::SpecialResearchTimelinesController < ApplicationController
   def index
-    special_research_timelines = SpecialResearchTimeline.all
+    special_research_timelines = SpecialResearchTimeline.all.order(:id)
 
     render :json => special_research_timelines
   end

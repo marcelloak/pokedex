@@ -1,6 +1,6 @@
 class Api::CostumeCaughtTimelinesController < ApplicationController
   def index
-    costume_caught_timelines = CostumeCaughtTimeline.all
+    costume_caught_timelines = CostumeCaughtTimeline.all.order(:id)
 
     render :json => costume_caught_timelines
   end

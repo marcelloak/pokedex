@@ -1,6 +1,6 @@
 class Api::GenerationsController < ApplicationController
   def index
-    generations = Generation.all
+    generations = Generation.all.order(:id)
 
     render :json => generations
   end

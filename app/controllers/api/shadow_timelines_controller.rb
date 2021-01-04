@@ -1,6 +1,6 @@
 class Api::ShadowTimelinesController < ApplicationController
   def index
-    shadow_timelines = ShadowTimeline.all
+    shadow_timelines = ShadowTimeline.all.order(:id)
 
     render :json => shadow_timelines
   end

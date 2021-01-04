@@ -1,6 +1,6 @@
 class Api::GblTimelinesController < ApplicationController
   def index
-    gbl_timelines = GblTimeline.all
+    gbl_timelines = GblTimeline.all.order(:id)
 
     render :json => gbl_timelines
   end

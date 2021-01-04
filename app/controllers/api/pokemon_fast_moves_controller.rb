@@ -1,6 +1,6 @@
 class Api::PokemonFastMovesController < ApplicationController
   def index
-    pokemon_fast_moves = PokemonFastMove.all
+    pokemon_fast_moves = PokemonFastMove.all.order(:id)
 
     render :json => pokemon_fast_moves
   end

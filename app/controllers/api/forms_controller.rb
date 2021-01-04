@@ -1,6 +1,6 @@
 class Api::FormsController < ApplicationController
   def index
-    forms = Form.all
+    forms = Form.all.order(:id)
 
     render :json => forms
   end

@@ -1,6 +1,6 @@
 class Api::TypesController < ApplicationController
   def index
-    types = Type.all
+    types = Type.all.order(:id)
 
     render :json => types
   end

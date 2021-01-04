@@ -1,6 +1,6 @@
 class Api::FastMovesController < ApplicationController
   def index
-    fast_moves = FastMove.all
+    fast_moves = FastMove.all.order(:id)
 
     render :json => fast_moves
   end

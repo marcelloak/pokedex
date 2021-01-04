@@ -1,6 +1,6 @@
 class Api::BreakthroughTimelinesController < ApplicationController
   def index
-    breakthrough_timelines = BreakthroughTimeline.all
+    breakthrough_timelines = BreakthroughTimeline.all.order(:id)
 
     render :json => breakthrough_timelines
   end

@@ -1,6 +1,6 @@
 class Api::PlayersController < ApplicationController
   def index
-    players = Player.all
+    players = Player.all.order(:id)
 
     render :json => players
   end

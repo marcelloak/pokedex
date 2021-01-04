@@ -1,6 +1,6 @@
 class Api::FamiliesController < ApplicationController
   def index
-    families = Family.all
+    families = Family.all.order(:id)
 
     render :json => families
   end

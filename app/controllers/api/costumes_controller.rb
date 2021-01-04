@@ -1,6 +1,6 @@
 class Api::CostumesController < ApplicationController
   def index
-    costumes = Costume.all
+    costumes = Costume.all.order(:id)
 
     render :json => costumes
   end

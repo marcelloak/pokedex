@@ -1,6 +1,6 @@
 class Api::MedalsController < ApplicationController
   def index
-    medals = Medal.all
+    medals = Medal.all.order(:id)
 
     render :json => medals
   end

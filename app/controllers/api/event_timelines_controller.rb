@@ -1,6 +1,6 @@
 class Api::EventTimelinesController < ApplicationController
   def index
-    event_timelines = EventTimeline.all
+    event_timelines = EventTimeline.all.order(:id)
 
     render :json => event_timelines
   end

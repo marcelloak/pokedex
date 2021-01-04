@@ -1,6 +1,6 @@
 class Api::PokemonChargeMovesController < ApplicationController
   def index
-    pokemon_charge_moves = PokemonChargeMove.all
+    pokemon_charge_moves = PokemonChargeMove.all.order(:id)
 
     render :json => pokemon_charge_moves
   end

@@ -1,6 +1,6 @@
 class Api::SeasonTimelinesController < ApplicationController
   def index
-    season_timelines = SeasonTimeline.all
+    season_timelines = SeasonTimeline.all.order(:id)
 
     render :json => season_timelines
   end

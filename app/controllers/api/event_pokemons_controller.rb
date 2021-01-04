@@ -1,6 +1,6 @@
 class Api::EventPokemonsController < ApplicationController
   def index
-    event_pokemons = EventPokemon.all
+    event_pokemons = EventPokemon.all.order(:id)
 
     render :json => event_pokemons
   end

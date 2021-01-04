@@ -1,6 +1,6 @@
 class Api::ItemTimelinesController < ApplicationController
   def index
-    item_timelines = ItemTimeline.all
+    item_timelines = ItemTimeline.all.order(:id)
 
     render :json => item_timelines
   end

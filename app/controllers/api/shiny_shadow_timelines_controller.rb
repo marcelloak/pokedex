@@ -1,6 +1,6 @@
 class Api::ShinyShadowTimelinesController < ApplicationController
   def index
-    shiny_shadow_timelines = ShinyShadowTimeline.all
+    shiny_shadow_timelines = ShinyShadowTimeline.all.order(:id)
 
     render :json => shiny_shadow_timelines
   end

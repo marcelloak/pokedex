@@ -1,6 +1,6 @@
 class Api::FeatureTimelinesController < ApplicationController
   def index
-    feature_timelines = FeatureTimeline.all
+    feature_timelines = FeatureTimeline.all.order(:id)
 
     render :json => feature_timelines
   end

@@ -1,6 +1,6 @@
 class Api::CostumeEventPokemonsController < ApplicationController
   def index
-    costume_event_pokemons = CostumeEventPokemon.all
+    costume_event_pokemons = CostumeEventPokemon.all.order(:id)
 
     render :json => costume_event_pokemons
   end

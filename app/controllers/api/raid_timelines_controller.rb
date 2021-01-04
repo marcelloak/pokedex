@@ -1,6 +1,6 @@
 class Api::RaidTimelinesController < ApplicationController
   def index
-    raid_timelines = RaidTimeline.all
+    raid_timelines = RaidTimeline.all.order(:id)
 
     render :json => raid_timelines
   end

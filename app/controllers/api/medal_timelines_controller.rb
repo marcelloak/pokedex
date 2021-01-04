@@ -1,6 +1,6 @@
 class Api::MedalTimelinesController < ApplicationController
   def index
-    medal_timelines = MedalTimeline.all
+    medal_timelines = MedalTimeline.all.order(:id)
 
     render :json => medal_timelines
   end

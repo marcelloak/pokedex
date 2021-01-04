@@ -1,6 +1,6 @@
 class Api::ShinyCostumeTimelinesController < ApplicationController
   def index
-    shiny_costume_timelines = ShinyCostumeTimeline.all
+    shiny_costume_timelines = ShinyCostumeTimeline.all.order(:id)
 
     render :json => shiny_costume_timelines
   end

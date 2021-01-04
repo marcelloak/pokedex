@@ -1,6 +1,6 @@
 class Api::SpecialLeagueTimelinesController < ApplicationController
   def index
-    special_league_timelines = SpecialLeagueTimeline.all
+    special_league_timelines = SpecialLeagueTimeline.all.order(:id)
 
     render :json => special_league_timelines
   end

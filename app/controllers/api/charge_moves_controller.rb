@@ -1,6 +1,6 @@
 class Api::ChargeMovesController < ApplicationController
   def index
-    charge_moves = ChargeMove.all
+    charge_moves = ChargeMove.all.order(:id)
 
     render :json => charge_moves
   end

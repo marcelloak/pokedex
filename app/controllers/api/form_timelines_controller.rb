@@ -1,6 +1,6 @@
 class Api::FormTimelinesController < ApplicationController
   def index
-    form_timelines = FormTimeline.all
+    form_timelines = FormTimeline.all.order(:id)
 
     render :json => form_timelines
   end

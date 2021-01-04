@@ -1,6 +1,6 @@
 class Api::PokemonCaughtTimelinesController < ApplicationController
   def index
-    pokemon_caught_timelines = PokemonCaughtTimeline.all
+    pokemon_caught_timelines = PokemonCaughtTimeline.all.order(:id)
 
     render :json => pokemon_caught_timelines
   end

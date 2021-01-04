@@ -1,6 +1,6 @@
 class Api::ShinyFormTimelinesController < ApplicationController
   def index
-    shiny_form_timelines = ShinyFormTimeline.all
+    shiny_form_timelines = ShinyFormTimeline.all.order(:id)
 
     render :json => shiny_form_timelines
   end
