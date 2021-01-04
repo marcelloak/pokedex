@@ -28,21 +28,11 @@ export default function App() {
     })
   }, []);
 
-  const tableRoutes = function() {
+  const tableRoutes = function(tables) {
     return tables.map((table, index) => {
-      return <Route key={index} path={`/database/${table.name}`} render={(props) => (<Form {...props} table={table} />)} />
-    })
-  }
-
-  const timelineTableRoutes = function() {
-    return timelineTables.map((table, index) => {
-      return <Route key={index} path={`/database/${table.name}`} render={(props) => (<Form {...props} table={table} />)} />
-    })
-  }
-
-  const caughtTableRoutes = function() {
-    return caughtTables.map((table, index) => {
-      return <Route key={index} path={`/database/${table.name}`} render={(props) => (<Form {...props} table={table} />)} />
+      return (
+          <Route key={index} path={`/database/${table.name}`} render={(props) => (<Form {...props} table={table} />)} />
+      )
     })
   }
 
@@ -52,9 +42,9 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/database" render={(props) => (<Database {...props} tables={[caughtTables, tables, timelineTables]} timelineTables={timelineTables} caughtTables={caughtTables} />)} />
-        {tableRoutes()}
-        {timelineTableRoutes()}
-        {caughtTableRoutes()}
+        {tableRoutes(tables)}
+        {tableRoutes(timelineTables)}
+        {tableRoutes(caughtTables)}
         <Route exact path="/pokedex" component={Pokedex} />
         <Route exact path="/pokedex/type_chart" component={TypeChart} />
       </Switch>
