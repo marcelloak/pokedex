@@ -124,7 +124,7 @@ export default function Form(props) {
         return (
           <Fragment key={index}>
             <label htmlFor={column.name}>{titleCase(column.name)}: </label>
-            <select onChange={onChange} name={column.name} value={params[column.name]}>
+            <select onChange={onChange} name={column.name} value={params[column.name] || ''}>
               <option key={-1} value={''} >None</option>
               {foreignKeys[column.name].map ((key, index) =>{
                 return <option key={index} value={key.id}>{key.name}</option>
