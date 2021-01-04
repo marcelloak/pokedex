@@ -59,6 +59,7 @@ export default function Form(props) {
 
   useEffect(() => {
     resetParams()
+    window.scrollTo(0, 0)
   }, [editing]);
 
   const clickHandler = () => {
