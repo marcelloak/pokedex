@@ -1,6 +1,12 @@
 class Api::ShinyFormTimelinesController < ApplicationController
   def index
     shiny_form_timelines = ShinyFormTimeline.all.order(:id)
+    shiny_form_timelines = shiny_form_timelines.as_json.map { |shiny_form_timeline|
+      {
+        **shiny_form_timeline.symbolize_keys,
+        form_id: { id: shiny_form_timeline.symbolize_keys[:form_id], name: Form.find(shiny_form_timeline.symbolize_keys[:form_id])[:name] }
+      }
+    }
 
     render :json => shiny_form_timelines
   end

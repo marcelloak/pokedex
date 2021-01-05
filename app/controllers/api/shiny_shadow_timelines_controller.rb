@@ -1,6 +1,12 @@
 class Api::ShinyShadowTimelinesController < ApplicationController
   def index
     shiny_shadow_timelines = ShinyShadowTimeline.all.order(:id)
+    shiny_shadow_timelines = shiny_shadow_timelines.as_json.map { |shiny_shadow_timeline|
+      {
+        **shiny_shadow_timeline.symbolize_keys,
+        pokemon_id: { id: shiny_shadow_timeline.symbolize_keys[:pokemon_id], name: Pokemon.find(shiny_shadow_timeline.symbolize_keys[:pokemon_id])[:name] }
+      }
+    }
 
     render :json => shiny_shadow_timelines
   end

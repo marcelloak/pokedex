@@ -1,6 +1,13 @@
 class Api::PokemonChargeMovesController < ApplicationController
   def index
     pokemon_charge_moves = PokemonChargeMove.all.order(:id)
+    pokemon_charge_moves = pokemon_charge_moves.as_json.map { |pokemon_charge_move|
+      {
+        **pokemon_charge_move.symbolize_keys,
+        pokemon_id: { id: pokemon_charge_move.symbolize_keys[:pokemon_id], name: Pokemon.find(pokemon_charge_move.symbolize_keys[:pokemon_id])[:name] },
+        charge_move_id: { id: pokemon_charge_move.symbolize_keys[:charge_move_id], name: ChargeMove.find(pokemon_charge_move.symbolize_keys[:charge_move_id])[:name] }
+      }
+    }
 
     render :json => pokemon_charge_moves
   end

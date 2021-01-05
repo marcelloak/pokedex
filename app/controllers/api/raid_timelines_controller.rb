@@ -1,6 +1,12 @@
 class Api::RaidTimelinesController < ApplicationController
   def index
     raid_timelines = RaidTimeline.all.order(:id)
+    raid_timelines = raid_timelines.as_json.map { |raid_timeline|
+      {
+        **raid_timeline.symbolize_keys,
+        pokemon_id: { id: raid_timeline.symbolize_keys[:pokemon_id], name: Pokemon.find(raid_timeline.symbolize_keys[:pokemon_id])[:name] }
+      }
+    }
 
     render :json => raid_timelines
   end

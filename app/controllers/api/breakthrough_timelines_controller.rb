@@ -1,6 +1,11 @@
 class Api::BreakthroughTimelinesController < ApplicationController
   def index
     breakthrough_timelines = BreakthroughTimeline.all.order(:id)
+    breakthrough_timelines = breakthrough_timelines.as_json.map { |breakthrough_timeline|
+      {
+        **breakthrough_timeline.symbolize_keys, pokemon_id: { id: breakthrough_timeline.symbolize_keys[:pokemon_id], name: Pokemon.find(breakthrough_timeline.symbolize_keys[:pokemon_id])[:name] }
+      }
+    }
 
     render :json => breakthrough_timelines
   end

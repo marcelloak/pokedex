@@ -1,6 +1,12 @@
 class Api::CostumeRaidTimelinesController < ApplicationController
   def index
     costume_raid_timelines = CostumeRaidTimeline.all.order(:id)
+    costume_raid_timelines = costume_raid_timelines.as_json.map { |costume_raid_timeline|
+      {
+        **costume_raid_timeline.symbolize_keys,
+        costume_id: { id: costume_raid_timeline.symbolize_keys[:costume_id], name: Costume.find(costume_raid_timeline.symbolize_keys[:costume_id])[:name] }
+      }
+    }
 
     render :json => costume_raid_timelines
   end

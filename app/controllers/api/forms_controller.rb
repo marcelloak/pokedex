@@ -1,6 +1,15 @@
 class Api::FormsController < ApplicationController
   def index
     forms = Form.all.order(:id)
+    forms = forms.as_json.map { |form|
+      {
+        **form.symbolize_keys,
+        pokemon_id: { id: form.symbolize_keys[:pokemon_id], name: Pokemon.find(form.symbolize_keys[:pokemon_id])[:name] },
+        evolves_from_id: { id: form.symbolize_keys[:evolves_from_id], name: Pokemon.find(form.symbolize_keys[:evolves_from_id])[:name] },
+        primary_type_id: { id: form.symbolize_keys[:primary_type_id], name: Type.find(form.symbolize_keys[:primary_type_id])[:icon] },
+        secondary_type_id: { id: form.symbolize_keys[:secondary_type_id], name: Type.find(form.symbolize_keys[:secondary_type_id])[:icon] }
+      }
+    }
 
     render :json => forms
   end

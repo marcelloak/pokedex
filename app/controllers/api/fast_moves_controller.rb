@@ -1,6 +1,12 @@
 class Api::FastMovesController < ApplicationController
   def index
     fast_moves = FastMove.all.order(:id)
+    fast_moves = fast_moves.as_json.map { |fast_move|
+      {
+        **fast_move.symbolize_keys,
+        type_id: { id: fast_move.symbolize_keys[:type_id], name: Type.find(fast_move.symbolize_keys[:type_id])[:icon] }
+      }
+    }
 
     render :json => fast_moves
   end

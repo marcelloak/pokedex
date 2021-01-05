@@ -1,6 +1,16 @@
 class Api::PokemonsController < ApplicationController
   def index
     pokemons = Pokemon.all.order(:id)
+    pokemons = pokemons.as_json.map { |pokemon|
+      {
+        **pokemon.symbolize_keys,
+        evolves_from_id: { id: pokemon.symbolize_keys[:evolves_from_id], name: Pokemon.find(pokemon.symbolize_keys[:evolves_from_id])[:name] },
+        generation_id: { id: pokemon.symbolize_keys[:generation_id], name: Generation.find(pokemon.symbolize_keys[:generation_id])[:name] },
+        family_id: { id: pokemon.symbolize_keys[:family_id], name: Family.find(pokemon.symbolize_keys[:family_id])[:name] },
+        primary_type_id: { id: pokemon.symbolize_keys[:primary_type_id], name: Type.find(pokemon.symbolize_keys[:primary_type_id])[:icon] },
+        secondary_type_id: { id: pokemon.symbolize_keys[:secondary_type_id], name: Type.find(pokemon.symbolize_keys[:secondary_type_id])[:icon] }
+      }
+    }
 
     render :json => pokemons
   end

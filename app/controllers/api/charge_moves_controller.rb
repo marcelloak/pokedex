@@ -1,6 +1,11 @@
 class Api::ChargeMovesController < ApplicationController
   def index
     charge_moves = ChargeMove.all.order(:id)
+    charge_moves = charge_moves.as_json.map { |charge_move|
+      {
+        **charge_move.symbolize_keys, type_id: { id: charge_move.symbolize_keys[:type_id], name: Type.find(charge_move.symbolize_keys[:type_id])[:icon] }
+      }
+    }
 
     render :json => charge_moves
   end

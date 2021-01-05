@@ -1,6 +1,13 @@
 class Api::CostumeSpecialDaysController < ApplicationController
   def index
     costume_special_days = CostumeSpecialDay.all.order(:id)
+    costume_special_days = costume_special_days.as_json.map { |costume_special_day|
+      {
+        **costume_special_day.symbolize_keys,
+        pokemon_id: { id: costume_special_day.symbolize_keys[:pokemon_id], name: Pokemon.find(costume_special_day.symbolize_keys[:pokemon_id])[:name] },
+        special_day_type_id: { id: costume_special_day.symbolize_keys[:special_day_type_id], name: SpecialDayType.find(costume_special_day.symbolize_keys[:special_day_type_id])[:name] }
+      }
+    }
 
     render :json => costume_special_days
   end
@@ -46,6 +53,6 @@ class Api::CostumeSpecialDaysController < ApplicationController
 
   private
     def costume_special_day_params
-      params.permit(:date, :pokemon_id, :costume_special_day_type_id)
+      params.permit(:date, :pokemon_id, :special_day_type_id)
     end
 end

@@ -25,6 +25,12 @@ class Api::FormRaidTimelinesController < ApplicationController
 
   def update
     form_raid_timeline = FormRaidTimeline.find(params[:id])
+    form_raid_timelines = form_raid_timelines.as_json.map { |form_raid_timeline|
+      {
+        **form_raid_timeline.symbolize_keys,
+        form_id: { id: form_raid_timeline.symbolize_keys[:form_id], name: Form.find(form_raid_timeline.symbolize_keys[:form_id])[:name] }
+      }
+    }
 
     if form_raid_timeline.update(form_raid_timeline_params)
       render :json => form_raid_timeline

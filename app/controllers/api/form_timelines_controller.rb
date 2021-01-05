@@ -1,6 +1,12 @@
 class Api::FormTimelinesController < ApplicationController
   def index
     form_timelines = FormTimeline.all.order(:id)
+    form_timelines = form_timelines.as_json.map { |form_timeline|
+      {
+        **form_timeline.symbolize_keys,
+        form_id: { id: form_timeline.symbolize_keys[:form_id], name: Form.find(form_timeline.symbolize_keys[:form_id])[:name] }
+      }
+    }
 
     render :json => form_timelines
   end

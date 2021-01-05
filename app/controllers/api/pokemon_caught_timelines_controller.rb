@@ -1,6 +1,18 @@
 class Api::PokemonCaughtTimelinesController < ApplicationController
   def index
     pokemon_caught_timelines = PokemonCaughtTimeline.all.order(:id)
+    pokemon_caught_timelines = pokemon_caught_timelines.as_json.map { |pokemon_caught_timeline|
+      {
+        **pokemon_caught_timeline.symbolize_keys,
+        current_evolution_id: { id: pokemon_caught_timeline.symbolize_keys[:current_evolution_id], name: Pokemon.find(pokemon_caught_timeline.symbolize_keys[:current_evolution_id])[:name] },
+        target_evolution_id: { id: pokemon_caught_timeline.symbolize_keys[:target_evolution_id], name: Pokemon.find(pokemon_caught_timeline.symbolize_keys[:target_evolution_id])[:name] },
+        fast_move_id: { id: pokemon_caught_timeline.symbolize_keys[:fast_move_id], name: FastMove.find(pokemon_caught_timeline.symbolize_keys[:fast_move_id])[:name] },
+        first_charge_move_id: { id: pokemon_caught_timeline.symbolize_keys[:first_charge_move_id], name: ChargeMove.find(pokemon_caught_timeline.symbolize_keys[:first_charge_move_id])[:name] },
+        second_charge_move_id: { id: pokemon_caught_timeline.symbolize_keys[:second_charge_move_id], name: ChargeMove.find(pokemon_caught_timeline.symbolize_keys[:second_charge_move_id])[:name] },
+        original_owner_id: { id: pokemon_caught_timeline.symbolize_keys[:original_owner_id], name: Player.find(pokemon_caught_timeline.symbolize_keys[:original_owner_id])[:name] },
+        current_owner_id: { id: pokemon_caught_timeline.symbolize_keys[:current_owner_id], name: Player.find(pokemon_caught_timeline.symbolize_keys[:current_owner_id])[:name] }
+      }
+    }
 
     render :json => pokemon_caught_timelines
   end

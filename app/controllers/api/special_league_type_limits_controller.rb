@@ -1,6 +1,13 @@
 class Api::SpecialLeagueTypeLimitsController < ApplicationController
   def index
     special_league_type_limits = SpecialLeagueTypeLimit.all.order(:id)
+    special_league_type_limits = special_league_type_limits.as_json.map { |special_league_type_limit|
+      {
+        **special_league_type_limit.symbolize_keys,
+        special_league_timeline_id: { id: special_league_type_limit.symbolize_keys[:special_league_timeline_id], name: SpecialLeagueTimeline.find(special_league_type_limit.symbolize_keys[:special_league_timeline_id])[:name] },
+        type_id: { id: special_league_type_limit.symbolize_keys[:type_id], name: Type.find(special_league_type_limit.symbolize_keys[:type_id])[:icon] }
+      }
+    }
 
     render :json => special_league_type_limits
   end

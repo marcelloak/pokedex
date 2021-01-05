@@ -1,6 +1,12 @@
 class Api::CostumesController < ApplicationController
   def index
     costumes = Costume.all.order(:id)
+    costumes = costumes.as_json.map { |costume|
+      {
+        **costume.symbolize_keys,
+        pokemon_id: { id: costume.symbolize_keys[:pokemon_id], name: Pokemon.find(costume.symbolize_keys[:pokemon_id])[:name] }
+      }
+    }
 
     render :json => costumes
   end

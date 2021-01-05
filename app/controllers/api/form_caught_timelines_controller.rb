@@ -1,6 +1,18 @@
 class Api::FormCaughtTimelinesController < ApplicationController
   def index
     form_caught_timelines = FormCaughtTimeline.all.order(:id)
+    form_caught_timelines = form_caught_timelines.as_json.map { |form_caught_timeline|
+      {
+        **form_caught_timeline.symbolize_keys,
+        current_form_id: { id: form_caught_timeline.symbolize_keys[:current_form_id], name: Costume.find(form_caught_timeline.symbolize_keys[:current_form_id])[:name] },
+        target_form_id: { id: form_caught_timeline.symbolize_keys[:target_form_id], name: Costume.find(form_caught_timeline.symbolize_keys[:target_form_id])[:name] },
+        fast_move_id: { id: form_caught_timeline.symbolize_keys[:fast_move_id], name: FastMove.find(form_caught_timeline.symbolize_keys[:fast_move_id])[:name] },
+        first_charge_move_id: { id: form_caught_timeline.symbolize_keys[:first_charge_move_id], name: ChargeMove.find(form_caught_timeline.symbolize_keys[:first_charge_move_id])[:name] },
+        second_charge_move_id: { id: form_caught_timeline.symbolize_keys[:second_charge_move_id], name: ChargeMove.find(form_caught_timeline.symbolize_keys[:second_charge_move_id])[:name] },
+        original_owner_id: { id: form_caught_timeline.symbolize_keys[:original_owner_id], name: Player.find(form_caught_timeline.symbolize_keys[:original_owner_id])[:name] },
+        current_owner_id: { id: form_caught_timeline.symbolize_keys[:current_owner_id], name: Player.find(form_caught_timeline.symbolize_keys[:current_owner_id])[:name] }
+      }
+    }
 
     render :json => form_caught_timelines
   end

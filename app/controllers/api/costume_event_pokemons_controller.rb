@@ -1,6 +1,13 @@
 class Api::CostumeEventPokemonsController < ApplicationController
   def index
     costume_event_pokemons = CostumeEventPokemon.all.order(:id)
+    costume_event_pokemons = costume_event_pokemons.as_json.map { |costume_event_pokemon|
+      {
+        **costume_event_pokemon.symbolize_keys,
+        costume_id: { id: costume_event_pokemon.symbolize_keys[:costume_id], name: Costume.find(costume_event_pokemon.symbolize_keys[:costume_id])[:name] },
+        event_timeline_id: { id: costume_event_pokemon.symbolize_keys[:event_timeline_id], name: EventTimeline.find(costume_event_pokemon.symbolize_keys[:event_timeline_id])[:name] }
+      }
+    }
 
     render :json => costume_event_pokemons
   end

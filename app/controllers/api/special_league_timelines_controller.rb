@@ -1,6 +1,12 @@
 class Api::SpecialLeagueTimelinesController < ApplicationController
   def index
     special_league_timelines = SpecialLeagueTimeline.all.order(:id)
+    special_league_timelines = special_league_timelines.as_json.map { |special_league_timeline|
+      {
+        **special_league_timeline.symbolize_keys,
+        gbl_timeline_id: { id: special_league_timeline.symbolize_keys[:gbl_timeline_id], name: GblTimeline.find(special_league_timeline.symbolize_keys[:gbl_timeline_id])[:name] }
+      }
+    }
 
     render :json => special_league_timelines
   end

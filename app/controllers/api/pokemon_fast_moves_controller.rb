@@ -1,6 +1,13 @@
 class Api::PokemonFastMovesController < ApplicationController
   def index
     pokemon_fast_moves = PokemonFastMove.all.order(:id)
+    pokemon_fast_moves = pokemon_fast_moves.as_json.map { |pokemon_fast_move|
+      {
+        **pokemon_fast_move.symbolize_keys,
+        pokemon_id: { id: pokemon_fast_move.symbolize_keys[:pokemon_id], name: Pokemon.find(pokemon_fast_move.symbolize_keys[:pokemon_id])[:name] },
+        fast_move_id: { id: pokemon_fast_move.symbolize_keys[:fast_move_id], name: FastMove.find(pokemon_fast_move.symbolize_keys[:fast_move_id])[:name] }
+      }
+    }
 
     render :json => pokemon_fast_moves
   end
