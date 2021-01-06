@@ -194,6 +194,7 @@ export default function Form(props) {
       </thead>
       <tbody>
         {records.map((record, index) => {
+          console.log(record)
           return (
             <tr key={index}>
               {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
@@ -202,7 +203,9 @@ export default function Form(props) {
                   if (String(record[column.name].name).includes('.png')) return <td key={index}><img src={record[column.name].name} alt={record[column.name].name} width={30} height={30}/></td>
                   else return <td key={index}>{record[column.name].name}</td>
                 }
-                else return <td key={index}>{column.sql_type_metadata.type === "datetime" && record[column.name] ? record[column.name].split('T')[0] : record[column.name]}</td>
+                else if (column.sql_type_metadata.type === "datetime") return <td key={index}>{record[column.name] ? record[column.name].split('T')[0] : record[column.name]}</td>
+                else if (column.sql_type_metadata.type === "boolean") return <td key={index}>{record[column.name] ? 'Y' : ''}</td>
+                else return <td key={index}>{record[column.name]}</td>
               })}
               <td key={props.table.columns.length} onClick={() => setEditing(record.id)}>Edit</td>
               <td key={props.table.columns.length + 1} onClick={() => deleteRecord(record.id)}>Delete</td>
