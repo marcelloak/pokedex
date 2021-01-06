@@ -18,7 +18,7 @@ export default function Form(props) {
            return { ...current, [column.name]: response.data }
           })
           setParams((current) => {
-            return { ...current, [column.name]: response.data[0] ? response.data[0].id : null}
+            return { ...current, [column.name]: params[column.name] ? params[column.name] : (response.data[0] ? response.data[0].id : null)}
           })
         })
       }
