@@ -89,6 +89,7 @@ export default function Form(props) {
         .then((response) => {
           setRecords(response.data)
           setEditing(false)
+          getForeignKeys()
         })
       }
       else {
@@ -97,6 +98,7 @@ export default function Form(props) {
         .then((response) => {
           setRecords(response.data)
           resetParams()
+          getForeignKeys()
         })
       }
     }
