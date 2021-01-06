@@ -119,6 +119,12 @@ export default function Form(props) {
     })
   }
 
+  const clearDate = (name) => {
+    setParams((current) => {
+      return { ...current, [name]: '' }
+    })
+  }
+
   const paramFields = function() {
     const columns = props.table.columns.filter((column) => {
       return column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at'
@@ -161,6 +167,7 @@ export default function Form(props) {
                 shrink: true,
               }}
             />
+            <Button variant="outlined" onClick={() => clearDate(column.name)}>Clear</Button>
             <br/>
           </Fragment>
         )
