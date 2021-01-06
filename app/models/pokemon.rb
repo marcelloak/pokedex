@@ -2,7 +2,7 @@ class Pokemon < ApplicationRecord
   belongs_to :generation
   belongs_to :family
   belongs_to :primary_type, :class_name => 'Type'
-  belongs_to :secondary_type, :class_name => 'Type'
+  belongs_to :secondary_type, :class_name => 'Type', optional: true
   belongs_to :evolves_from, :class_name => 'Pokemon', optional: true
 
   has_many :pokemons
