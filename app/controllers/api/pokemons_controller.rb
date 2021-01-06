@@ -4,7 +4,7 @@ class Api::PokemonsController < ApplicationController
     pokemons = pokemons.as_json.map { |pokemon|
       {
         **pokemon.symbolize_keys,
-        evolves_from_id: { id: pokemon.symbolize_keys[:evolves_from_id], name: Pokemon.find(pokemon.symbolize_keys[:evolves_from_id])[:name] },
+        evolves_from_id: { id: pokemon.symbolize_keys[:evolves_from_id], name: pokemon.symbolize_keys[:evolves_from_id] ? Pokemon.find(pokemon.symbolize_keys[:evolves_from_id])[:name] : pokemon.symbolize_keys[:evolves_from_id] },
         generation_id: { id: pokemon.symbolize_keys[:generation_id], name: Generation.find(pokemon.symbolize_keys[:generation_id])[:name] },
         family_id: { id: pokemon.symbolize_keys[:family_id], name: Family.find(pokemon.symbolize_keys[:family_id])[:name] },
         primary_type_id: { id: pokemon.symbolize_keys[:primary_type_id], name: Type.find(pokemon.symbolize_keys[:primary_type_id])[:icon] },
