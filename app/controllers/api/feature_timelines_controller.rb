@@ -46,6 +46,6 @@ class Api::FeatureTimelinesController < ApplicationController
 
   private
     def feature_timeline_params
-      params.permit(:release, :name)
+      params.permit(:released, :name)
     end
 end

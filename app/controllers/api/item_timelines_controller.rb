@@ -46,6 +46,6 @@ class Api::ItemTimelinesController < ApplicationController
 
   private
     def item_timeline_params
-      params.permit(:release, :name)
+      params.permit(:released, :name)
     end
 end
