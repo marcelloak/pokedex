@@ -108,10 +108,11 @@ export default function Form(props) {
   }
 
   const onChange = (event) => {
-    const value = event.target.value
+    event.persist()
     const name = event.target.name
     setParams((current) => {
-     return { ...current, [name]: value }
+      const value = event.target.type === 'checkbox' ? !current[name] : event.target.value
+      return { ...current, [name]: value }
     })
   }
 
@@ -138,7 +139,7 @@ export default function Form(props) {
         return (
           <Fragment key={index}>
             <label htmlFor={column.name}>{titleCase(column.name)}</label>
-            <input type="checkbox" name={column.name} value={params[column.name] || ''} onChange={onChange} />
+            <input type="checkbox" name={column.name} checked={params[column.name] || false} onChange={onChange} />
             <br/>
           </Fragment>
         )
