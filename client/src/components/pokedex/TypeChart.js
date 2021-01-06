@@ -32,7 +32,7 @@ export default function TypeChart() {
                 if (interaction.multiplier === 2) bgColor = 'green'
                 else if (interaction.multiplier === 0.25) bgColor = 'grey'
                 else if (interaction.multiplier === 0.5) bgColor = 'red'
-                return <td key={index} style={{backgroundColor: bgColor}} >{index ? interaction.multiplier : <img src={interaction.icon} alt={interaction.name} width={30} height={30}/>}</td>
+                return <td key={index} style={{backgroundColor: bgColor}} >{index ? '' : <img src={interaction.icon} alt={interaction.name} width={30} height={30}/>}</td>
               })}
             </tr>
           )
