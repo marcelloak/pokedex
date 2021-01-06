@@ -203,7 +203,6 @@ export default function Form(props) {
       </thead>
       <tbody>
         {records.map((record, index) => {
-          console.log(record)
           return (
             <tr key={index}>
               {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
