@@ -40,6 +40,7 @@ export default function Form(props) {
         if (record.id === editing) {
           props.table.columns.forEach((column) => {
             if (column.name.includes('_id')) newParams[column.name] = record[column.name].id
+            else if (column.sql_type_metadata.type === "datetime") newParams[column.name] = record[column.name].split('T')[0]
             else newParams[column.name] = record[column.name]
           })
         }
@@ -56,7 +57,7 @@ export default function Form(props) {
         }
         else if (column.sql_type_metadata.type === "datetime") {
           const now = new Date();
-          newParams[column.name] = `${now.getFullYear()}-${now.getMonth() + 1 > 9 ? '' : 0}${now.getMonth() + 1}-${now.getDate() > 9 ? '' : 0}${now.getDate()}`
+          newParams[column.name] = params[column.name] ? params[column.name] : `${now.getFullYear()}-${now.getMonth() + 1 > 9 ? '' : 0}${now.getMonth() + 1}-${now.getDate() > 9 ? '' : 0}${now.getDate()}`
         }
         else if (column.sql_type_metadata.type === "boolean") {
           newParams[column.name] = false
@@ -147,16 +148,15 @@ export default function Form(props) {
         )
       }
       else if (column.sql_type_metadata.type === "datetime") {
-        const now = new Date();
         return (
           <Fragment key={index}>
             <TextField
               id="date"
               name={column.name}
               label={titleCase(column.name)}
+              value={params[column.name] || ''}
               onChange={onChange}
               type="date"
-              defaultValue={`${now.getFullYear()}-${now.getMonth() + 1 > 9 ? '' : 0}${now.getMonth() + 1}-${now.getDate() > 9 ? '' : 0}${now.getDate()}`}
               InputLabelProps={{
                 shrink: true,
               }}
