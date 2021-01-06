@@ -175,7 +175,10 @@ export default function Form(props) {
   const deleteRecord = function(id) {
     axios.delete(`/api/${props.table.name}/${id}`)
     .then(() => axios.get(`/api/${props.table.name}`))
-    .then((response) => setRecords(response.data))
+    .then((response) => {
+      setRecords(response.data)
+      getForeignKeys()
+    })
   }
 
   const getRecordRows = function() {
