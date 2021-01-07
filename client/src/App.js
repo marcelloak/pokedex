@@ -3,6 +3,7 @@ import axios from 'axios'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Nav from './components/Nav'
 import Form from './components/Form'
+import Login from './components/Login'
 import Database from './components/Database'
 import Pokedex from './components/Pokedex'
 import TypeChart from './components/pokedex/TypeChart'
@@ -11,6 +12,7 @@ export default function App() {
   const [tables, setTables] = useState([])
   const [timelineTables, setTimelineTables] = useState([])
   const [caughtTables, setCaughtTables] = useState([])
+  const [user, setUser] = useState(false)
 
   useEffect(() => {
     axios.get('/tables')
@@ -30,15 +32,16 @@ export default function App() {
   const tableRoutes = function(tables) {
     return tables.map((table, index) => {
       return (
-          <Route key={index} path={`/database/${table.name}`} render={(props) => (<Form {...props} table={table} />)} />
+          <Route key={index} path={`/database/${table.name}`} render={(props) => (<Form {...props} user={user} table={table} />)} />
       )
     })
   }
 
   return (
     <Router>
-      <Nav/>
+      <Nav user={user} />
       <Switch>
+        <Route exact path="/user" render={(props) => (<Login {...props} user={user} setUser={setUser} />)} />
         <Route exact path="/database" render={(props) => (<Database {...props} tables={[caughtTables, tables, timelineTables]} timelineTables={timelineTables} caughtTables={caughtTables} />)} />
         {tableRoutes(tables)}
         {tableRoutes(timelineTables)}
