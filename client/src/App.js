@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import axios from 'axios'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Cookies from 'universal-cookie';
+
 import Nav from './components/Nav'
 import Form from './components/Form'
 import Login from './components/Login'
@@ -9,10 +11,12 @@ import Pokedex from './components/Pokedex'
 import TypeChart from './components/pokedex/TypeChart'
 
 export default function App() {
+  const cookies = new Cookies()
+
   const [tables, setTables] = useState([])
   const [timelineTables, setTimelineTables] = useState([])
   const [caughtTables, setCaughtTables] = useState([])
-  const [user, setUser] = useState(false)
+  const [user, setUser] = useState(cookies.get('user'))
 
   useEffect(() => {
     axios.get('/tables')
@@ -41,7 +45,7 @@ export default function App() {
     <Router>
       <Nav user={user} />
       <Switch>
-        <Route exact path="/user" render={(props) => (<Login {...props} user={user} setUser={setUser} />)} />
+        <Route exact path="/user" render={(props) => (<Login {...props} cookies={cookies} user={user} setUser={setUser} />)} />
         <Route exact path="/database" render={(props) => (<Database {...props} tables={[caughtTables, tables, timelineTables]} timelineTables={timelineTables} caughtTables={caughtTables} />)} />
         {tableRoutes(tables)}
         {tableRoutes(timelineTables)}

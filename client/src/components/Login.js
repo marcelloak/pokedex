@@ -15,7 +15,10 @@ export default function Login(props) {
   }
 
   const clickHandler   = function() {
-    if (password === process.env.REACT_APP_PASSWORD) props.setUser(true)
+    if (password === process.env.REACT_APP_PASSWORD) {
+      props.setUser(true)
+      props.cookies.set('user', true, { path: '/' })
+    }
   }
 
   return (
