@@ -83,7 +83,7 @@ export default function Form(props) {
   }, [editing]);
 
   const clickHandler = () => {
-    if (params[props.table.columns[1].name]) {
+    if (params[props.table.columns[1].name] && props.user) {
       if (editing !== false) {
         axios.put(`/api/${props.table.name}/${editing}`, { ...params })
         .then(() => axios.get(`/api/${props.table.name}`))
@@ -182,12 +182,14 @@ export default function Form(props) {
   }
 
   const deleteRecord = function(id) {
-    axios.delete(`/api/${props.table.name}/${id}`)
-    .then(() => axios.get(`/api/${props.table.name}`))
-    .then((response) => {
-      setRecords(response.data)
-      getForeignKeys()
-    })
+    if (props.user) {
+      axios.delete(`/api/${props.table.name}/${id}`)
+      .then(() => axios.get(`/api/${props.table.name}`))
+      .then((response) => {
+        setRecords(response.data)
+        getForeignKeys()
+      })
+    }
   }
 
   const getRecordRows = function() {
