@@ -3,6 +3,8 @@ import axios from 'axios'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
+import './Form.css'
+
 export default function Form(props) {
   const [records, setRecords] = useState([])
   const [params, setParams] = useState({})
@@ -132,7 +134,7 @@ export default function Form(props) {
     return columns.map((column, index) => {
       if (column.name.includes('_id') && foreignKeys[column.name]) {
         return (
-          <Fragment key={index}>
+          <div className='foreign-key-field param-field' key={index}>
             <label htmlFor={column.name}>{titleCase(column.name)}: </label>
             <select onChange={onChange} name={column.name} value={params[column.name] || ''}>
               <option key={-1} value={''} >None</option>
@@ -140,22 +142,20 @@ export default function Form(props) {
                 return <option key={index} value={key.id}>{key.name}</option>
               })}
             </select>
-            <br/>
-          </Fragment>
+          </div>
         )
       }
       else if (column.sql_type_metadata.type === "boolean") {
         return (
-          <Fragment key={index}>
+          <div className='boolean-field param-field' key={index}>
             <label htmlFor={column.name}>{titleCase(column.name)}</label>
             <input type="checkbox" name={column.name} checked={params[column.name] || false} onChange={onChange} />
-            <br/>
-          </Fragment>
+          </div>
         )
       }
       else if (column.sql_type_metadata.type === "datetime") {
         return (
-          <Fragment key={index}>
+          <div className='datetime-field param-field' key={index}>
             <TextField
               id="date"
               name={column.name}
@@ -168,15 +168,13 @@ export default function Form(props) {
               }}
             />
             <Button variant="outlined" onClick={() => clearDate(column.name)}>Clear</Button>
-            <br/>
-          </Fragment>
+          </div>
         )
       }
       else return (
-        <Fragment key={index}>
+        <div className='text-field param-field' key={index}>
           <TextField id="standard-basic" label={titleCase(column.name)} name={column.name} value={params[column.name] || ''} onChange={onChange}/>
-          <br/>
-        </Fragment>
+        </div>
       )
     })
   }
@@ -229,7 +227,9 @@ export default function Form(props) {
   return (
     <Fragment>
       <form onSubmit={submitHandler} className={`${props.table.name}-form`}>
-        {paramFields()}
+        <div className='param-fields' >
+          {paramFields()}
+        </div>
         <br/>
         <Button variant="outlined" style={{ fontSize: '1em', fontWeight: 'bolder' }} onClick={clickHandler}>Submit</Button>
       </form>

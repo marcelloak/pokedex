@@ -1,0 +1,10 @@
+.foreign-key-field, .boolean-field {
+  padding: 5px;
+}
+
+.param-fields {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 30vh;
+}
