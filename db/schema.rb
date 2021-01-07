@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_15_164237) do
+ActiveRecord::Schema.define(version: 2021_01_07_212610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 2020_12_15_164237) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "buddy_distance"
   end
 
   create_table "fast_moves", force: :cascade do |t|
@@ -387,7 +388,6 @@ ActiveRecord::Schema.define(version: 2020_12_15_164237) do
     t.integer "attack"
     t.integer "defence"
     t.integer "stamina"
-    t.integer "buddy_distance"
     t.integer "evolve_candy"
     t.boolean "trade_discount"
     t.string "evolve_requirement"

@@ -46,6 +46,6 @@ class Api::FamiliesController < ApplicationController
 
   private
     def family_params
-      params.permit(:name)
+      params.permit(:name, :buddy_distance)
     end
 end

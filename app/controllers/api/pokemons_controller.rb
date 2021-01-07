@@ -56,6 +56,6 @@ class Api::PokemonsController < ApplicationController
 
   private
     def pokemon_params
-      params.permit(:name, :number, :attack, :defence, :stamina, :buddy_distance, :evolve_candy, :trade_discount, :evolve_requirement, :gender_variant, :gendered, :legendary, :mythical, :region, :evolves_from_id, :generation_id, :family_id, :primary_type_id, :secondary_type_id)
+      params.permit(:name, :number, :attack, :defence, :stamina, :evolve_candy, :trade_discount, :evolve_requirement, :gender_variant, :gendered, :legendary, :mythical, :region, :evolves_from_id, :generation_id, :family_id, :primary_type_id, :secondary_type_id)
     end
 end
