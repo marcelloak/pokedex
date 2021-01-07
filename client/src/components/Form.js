@@ -40,7 +40,7 @@ export default function Form(props) {
         if (record.id === editing) {
           props.table.columns.forEach((column) => {
             if (column.name.includes('_id')) newParams[column.name] = record[column.name].id
-            else if (column.sql_type_metadata.type === "datetime") newParams[column.name] = record[column.name].split('T')[0]
+            else if (column.sql_type_metadata.type === "datetime") newParams[column.name] = record[column.name] ? record[column.name].split('T')[0] : record[column.name]
             else newParams[column.name] = record[column.name]
           })
         }
