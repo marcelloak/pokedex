@@ -38,9 +38,28 @@ export default function Form(props) {
 
   const compare = function(sort) {
     const c = function(a, b) {
-      if (a[sort.key] < b[sort.key]) return sort.asc ? -1 : 1
-      if (a[sort.key] > b[sort.key]) return sort.asc ? 1 : -1
-      return 0
+      console.log(a[sort.key])
+      console.log(b[sort.key])
+      if (a[sort.key] && b[sort.key]) {
+        if (a[sort.key].name || b[sort.key].name) {
+          if (a[sort.key].name && b[sort.key].name) {
+            if (a[sort.key].name < b[sort.key].name) return sort.asc ? -1 : 1
+            if (a[sort.key].name > b[sort.key].name) return sort.asc ? 1 : -1
+            return 0
+          }
+          else if (a[sort.key].name) return sort.asc ? -1 : 1
+          else if (b[sort.key].name) return sort.asc ? 1 : -1
+          else return 0
+        }
+        else {
+          if (a[sort.key] < b[sort.key]) return sort.asc ? -1 : 1
+          if (a[sort.key] > b[sort.key]) return sort.asc ? 1 : -1
+          return 0
+        }
+      }
+      else if (a[sort.key]) return sort.asc ? -1 : 1
+      else if (b[sort.key]) return sort.asc ? 1 : -1
+      else return 0
     }
 
     return c
