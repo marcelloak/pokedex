@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_07_212610) do
+ActiveRecord::Schema.define(version: 2021_01_08_234502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -248,6 +248,7 @@ ActiveRecord::Schema.define(version: 2021_01_07_212610) do
     t.bigint "evolves_from_id"
     t.bigint "primary_type_id"
     t.bigint "secondary_type_id"
+    t.boolean "default"
     t.index ["evolves_from_id"], name: "index_forms_on_evolves_from_id"
     t.index ["pokemon_id"], name: "index_forms_on_pokemon_id"
     t.index ["primary_type_id"], name: "index_forms_on_primary_type_id"
