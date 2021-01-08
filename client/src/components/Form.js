@@ -10,6 +10,7 @@ export default function Form(props) {
   const [params, setParams] = useState({})
   const [foreignKeys, setForeignKeys] = useState({})
   const [editing, setEditing] = useState()
+  const [sort, setSort] = useState({ key: 'id', asc: true})
 
   const getForeignKeys = function() {
     props.table.columns.forEach((column) => {
@@ -33,6 +34,22 @@ export default function Form(props) {
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
     }
     return splitStr.filter(str => str !== 'Id').join(' '); 
+  }
+
+  const compare = function(sort) {
+    const c = function(a, b) {
+      if (a[sort.key] < b[sort.key]) return sort.asc ? -1 : 1
+      if (a[sort.key] > b[sort.key]) return sort.asc ? 1 : -1
+      return 0
+    }
+
+    return c
+  }
+
+  const changeSort = function(column) {
+    setSort((current) => {
+      return { key: column, asc: current.key === column ? !current.asc : true }
+    })
   }
 
   const resetParams = function() {
@@ -194,18 +211,18 @@ export default function Form(props) {
     return (<table>
       <thead>
         <tr>
-          {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
-            return <th key={index}>{titleCase(column.name)}</th>
+          {props.table.columns.filter((column) => column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
+            return <th key={index} onClick={() => changeSort(column.name)}>{titleCase(column.name)}</th>
           })}
           <th key={props.table.columns.length}>Edit</th>
           <th key={props.table.columns.length + 1}>Delete</th>
         </tr>
       </thead>
       <tbody>
-        {records.map((record, index) => {
+        {records.sort(compare(sort)).map((record, index) => {
           return (
             <tr key={index}>
-              {props.table.columns.filter((column) => column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
+              {props.table.columns.filter((column) => column.name !== 'created_at' && column.name !== 'updated_at').map((column, index) => {
                 if (String(record[column.name]).includes('.png')) return <td key={index}><img src={record[column.name]} alt={record[column.name]} width={30} height={30}/></td>
                 else if (String(column.name).includes('_id'))  {
                   if (String(record[column.name].name).includes('.png')) return <td key={index}><img src={record[column.name].name} alt={record[column.name].name} width={30} height={30}/></td>
