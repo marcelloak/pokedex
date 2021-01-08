@@ -38,8 +38,6 @@ export default function Form(props) {
 
   const compare = function(sort) {
     const c = function(a, b) {
-      console.log(a[sort.key])
-      console.log(b[sort.key])
       if (a[sort.key] && b[sort.key]) {
         if (a[sort.key].name || b[sort.key].name) {
           if (a[sort.key].name && b[sort.key].name) {
