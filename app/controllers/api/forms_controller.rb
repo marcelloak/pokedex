@@ -5,9 +5,9 @@ class Api::FormsController < ApplicationController
       {
         **form.symbolize_keys,
         pokemon_id: { id: form.symbolize_keys[:pokemon_id], name: Pokemon.find(form.symbolize_keys[:pokemon_id])[:name] },
-        evolves_from_id: { id: form.symbolize_keys[:evolves_from_id], name: Pokemon.find(form.symbolize_keys[:evolves_from_id])[:name] },
+        evolves_from_id: { id: pokemon.symbolize_keys[:evolves_from_id], name: pokemon.symbolize_keys[:evolves_from_id] ? Pokemon.find(pokemon.symbolize_keys[:evolves_from_id])[:name] : pokemon.symbolize_keys[:evolves_from_id] },
         primary_type_id: { id: form.symbolize_keys[:primary_type_id], name: Type.find(form.symbolize_keys[:primary_type_id])[:icon] },
-        secondary_type_id: { id: form.symbolize_keys[:secondary_type_id], name: Type.find(form.symbolize_keys[:secondary_type_id])[:icon] }
+        secondary_type_id: { id: pokemon.symbolize_keys[:secondary_type_id], name: pokemon.symbolize_keys[:secondary_type_id] ? Type.find(pokemon.symbolize_keys[:secondary_type_id])[:icon] : pokemon.symbolize_keys[:secondary_type_id] }
       }
     }
 
@@ -47,6 +47,7 @@ class Api::FormsController < ApplicationController
   def destroy
     form = Form.find(params[:id])
     form.destroy
+    def create
 
     render :json => {
       message: 'Form was destroyed'
@@ -55,6 +56,6 @@ class Api::FormsController < ApplicationController
 
   private
     def form_params
-      params.permit(:name, :attack, :defence, :stamina, :pokemon_id, :evolves_from_id, :primary_type_id, :secondary_type_id)
+      params.permit(:name, :attack, :defence, :stamina, :pokemon_id, :evolves_from_id, :primary_type_id, :secondary_type_id, :default)
     end
 end
