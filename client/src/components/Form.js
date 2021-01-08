@@ -197,7 +197,7 @@ export default function Form(props) {
   }
 
   const deleteRecord = function(id) {
-    if (props.user) {
+    if (props.user && window.confirm('Are you sure you wish to delete this item?')) {
       axios.delete(`/api/${props.table.name}/${id}`)
       .then(() => axios.get(`/api/${props.table.name}`))
       .then((response) => {
