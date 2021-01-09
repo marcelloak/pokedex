@@ -126,7 +126,11 @@ export default function Form(props) {
         .then((response) => {
           setRecords(response.data)
           setEditing(false)
-          getForeignKeys()
+          let getKeys = false
+          props.table.columns.forEach((column) => {
+            if (column.name.includes('_id') && props.table.foreign_keys[column.name.slice(0, -3)] === props.table.name) getKeys = true
+          })
+          if (getKeys) getForeignKeys()
         })
       }
       else {
@@ -135,7 +139,11 @@ export default function Form(props) {
         .then((response) => {
           setRecords(response.data)
           resetParams()
-          getForeignKeys()
+          let getKeys = false
+          props.table.columns.forEach((column) => {
+            if (column.name.includes('_id') && props.table.foreign_keys[column.name.slice(0, -3)] === props.table.name) getKeys = true
+          })
+          if (getKeys) getForeignKeys()
         })
       }
     }
