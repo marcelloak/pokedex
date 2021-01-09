@@ -47,7 +47,6 @@ class Api::FormsController < ApplicationController
   def destroy
     form = Form.find(params[:id])
     form.destroy
-    def create
 
     render :json => {
       message: 'Form was destroyed'
