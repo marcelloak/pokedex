@@ -53,6 +53,6 @@ class Api::FormSpecialDaysController < ApplicationController
 
   private
     def form_special_day_params
-      params.permit(:date, :pokemon_id, :form_special_day_type_id)
+      params.permit(:date, :form_id, :special_day_type_id)
     end
 end

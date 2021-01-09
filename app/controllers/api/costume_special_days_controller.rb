@@ -53,6 +53,6 @@ class Api::CostumeSpecialDaysController < ApplicationController
 
   private
     def costume_special_day_params
-      params.permit(:date, :pokemon_id, :special_day_type_id)
+      params.permit(:date, :costume_id, :special_day_type_id)
     end
 end
