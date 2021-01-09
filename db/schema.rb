@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_08_234502) do
+ActiveRecord::Schema.define(version: 2021_01_09_032625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,12 +111,10 @@ ActiveRecord::Schema.define(version: 2021_01_08_234502) do
 
   create_table "costumes", force: :cascade do |t|
     t.string "name"
-    t.integer "attack"
-    t.integer "defence"
-    t.integer "stamina"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "pokemon_id"
+    t.boolean "gender_variant"
     t.index ["pokemon_id"], name: "index_costumes_on_pokemon_id"
   end
 
