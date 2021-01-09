@@ -126,11 +126,19 @@ export default function Form(props) {
         .then((response) => {
           setRecords(response.data)
           setEditing(false)
-          let getKeys = false
           props.table.columns.forEach((column) => {
-            if (column.name.includes('_id') && props.table.foreign_keys[column.name.slice(0, -3)] === props.table.name) getKeys = true
+            if (column.name.includes('_id') && props.table.foreign_keys[column.name.slice(0, -3)] === props.table.name) {
+              axios.get(`/api/${props.table.foreign_keys[column.name.slice(0, -3)]}`)
+              .then((response) => {
+                setForeignKeys((current) => {
+                 return { ...current, [column.name]: response.data }
+                })
+                setParams((current) => {
+                  return { ...current, [column.name]: params[column.name] ? params[column.name] : (response.data[0] ? response.data[0].id : null)}
+                })
+              })
+            }
           })
-          if (getKeys) getForeignKeys()
         })
       }
       else {
@@ -139,11 +147,19 @@ export default function Form(props) {
         .then((response) => {
           setRecords(response.data)
           resetParams()
-          let getKeys = false
           props.table.columns.forEach((column) => {
-            if (column.name.includes('_id') && props.table.foreign_keys[column.name.slice(0, -3)] === props.table.name) getKeys = true
+            if (column.name.includes('_id') && props.table.foreign_keys[column.name.slice(0, -3)] === props.table.name) {
+              axios.get(`/api/${props.table.foreign_keys[column.name.slice(0, -3)]}`)
+              .then((response) => {
+                setForeignKeys((current) => {
+                 return { ...current, [column.name]: response.data }
+                })
+                setParams((current) => {
+                  return { ...current, [column.name]: params[column.name] ? params[column.name] : (response.data[0] ? response.data[0].id : null)}
+                })
+              })
+            }
           })
-          if (getKeys) getForeignKeys()
         })
       }
     }
