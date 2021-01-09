@@ -52,6 +52,6 @@ class Api::CostumesController < ApplicationController
 
   private
     def costume_params
-      params.permit(:name, :attack, :defence, :stamina, :pokemon_id)
+      params.permit(:name, :gender_variant, :pokemon_id)
     end
 end
