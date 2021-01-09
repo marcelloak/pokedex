@@ -4,8 +4,8 @@ class Api::FormCaughtTimelinesController < ApplicationController
     form_caught_timelines = form_caught_timelines.as_json.map { |form_caught_timeline|
       {
         **form_caught_timeline.symbolize_keys,
-        current_form_id: { id: form_caught_timeline.symbolize_keys[:current_form_id], name: Costume.find(form_caught_timeline.symbolize_keys[:current_form_id])[:name] },
-        target_form_id: { id: form_caught_timeline.symbolize_keys[:target_form_id], name: Costume.find(form_caught_timeline.symbolize_keys[:target_form_id])[:name] },
+        current_form_id: { id: form_caught_timeline.symbolize_keys[:current_form_id], name: "#{Form.find(form_caught_timeline.symbolize_keys[:current_form_id])[:name]} (#{Pokemon.find(Form.find(form_caught_timeline.symbolize_keys[:current_form_id])[:pokemon_id])[:name]})" },
+        target_form_id: { id: form_caught_timeline.symbolize_keys[:target_form_id], name: "#{Form.find(form_caught_timeline.symbolize_keys[:target_form_id])[:name]} (#{Pokemon.find(Form.find(form_caught_timeline.symbolize_keys[:target_form_id])[:pokemon_id])[:name]})" },
         fast_move_id: { id: form_caught_timeline.symbolize_keys[:fast_move_id], name: FastMove.find(form_caught_timeline.symbolize_keys[:fast_move_id])[:name] },
         first_charge_move_id: { id: form_caught_timeline.symbolize_keys[:first_charge_move_id], name: ChargeMove.find(form_caught_timeline.symbolize_keys[:first_charge_move_id])[:name] },
         second_charge_move_id: { id: form_caught_timeline.symbolize_keys[:second_charge_move_id], name: ChargeMove.find(form_caught_timeline.symbolize_keys[:second_charge_move_id])[:name] },

@@ -28,7 +28,7 @@ class Api::FormRaidTimelinesController < ApplicationController
     form_raid_timelines = form_raid_timelines.as_json.map { |form_raid_timeline|
       {
         **form_raid_timeline.symbolize_keys,
-        form_id: { id: form_raid_timeline.symbolize_keys[:form_id], name: Form.find(form_raid_timeline.symbolize_keys[:form_id])[:name] }
+        form_id: { id: form_raid_timeline.symbolize_keys[:form_id], name: "#{Form.find(form_raid_timeline.symbolize_keys[:form_id])[:name]} (#{Pokemon.find(Form.find(form_raid_timeline.symbolize_keys[:form_id])[:pokemon_id])[:name]})" }
       }
     }
 

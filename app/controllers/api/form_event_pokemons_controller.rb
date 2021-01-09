@@ -4,7 +4,7 @@ class Api::FormEventPokemonsController < ApplicationController
     form_event_pokemons = form_event_pokemons.as_json.map { |form_event_pokemon|
       {
         **form_event_pokemon.symbolize_keys,
-        form_id: { id: form_event_pokemon.symbolize_keys[:form_id], name: Form.find(form_event_pokemon.symbolize_keys[:form_id])[:name] },
+        form_id: { id: form_event_pokemon.symbolize_keys[:form_id], name: "#{Form.find(form_event_pokemon.symbolize_keys[:form_id])[:name]} (#{Pokemon.find(Form.find(form_event_pokemon.symbolize_keys[:form_id])[:pokemon_id])[:name]})" },
         event_timeline_id: { id: form_event_pokemon.symbolize_keys[:event_timeline_id], name: EventTimeline.find(form_event_pokemon.symbolize_keys[:event_timeline_id])[:name] }
       }
     }

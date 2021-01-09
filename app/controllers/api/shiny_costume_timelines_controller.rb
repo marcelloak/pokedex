@@ -4,7 +4,7 @@ class Api::ShinyCostumeTimelinesController < ApplicationController
     shiny_costume_timelines = shiny_costume_timelines.as_json.map { |shiny_costume_timeline|
       {
         **shiny_costume_timeline.symbolize_keys,
-        costume_id: { id: shiny_costume_timeline.symbolize_keys[:costume_id], name: Costume.find(shiny_costume_timeline.symbolize_keys[:costume_id])[:name] }
+        costume_id: { id: shiny_costume_timeline.symbolize_keys[:costume_id], name: "#{Costume.find(shiny_costume_timeline.symbolize_keys[:costume_id])[:name]} (#{Pokemon.find(Costume.find(shiny_costume_timeline.symbolize_keys[:costume_id])[:pokemon_id])[:name]})" }
       }
     }
 
