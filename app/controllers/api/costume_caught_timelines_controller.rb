@@ -4,8 +4,8 @@ class Api::CostumeCaughtTimelinesController < ApplicationController
     costume_caught_timelines = costume_caught_timelines.as_json.map { |costume_caught_timeline|
       {
         **costume_caught_timeline.symbolize_keys,
-        current_costume_id: { id: costume_caught_timeline.symbolize_keys[:current_costume_id], name: Costume.find(costume_caught_timeline.symbolize_keys[:current_costume_id])[:name] },
-        target_costume_id: { id: costume_caught_timeline.symbolize_keys[:target_costume_id], name: Costume.find(costume_caught_timeline.symbolize_keys[:target_costume_id])[:name] },
+        current_costume_id: { id: costume_caught_timeline.symbolize_keys[:current_costume_id], name: "#{Costume.find(costume_caught_timeline.symbolize_keys[:current_costume_id])[:name]} (#{Pokemon.find(Costume.find(costume_caught_timeline.symbolize_keys[:current_costume_id])[:pokemon_id])[:name]})" },
+        target_costume_id: { id: costume_caught_timeline.symbolize_keys[:target_costume_id], name: "#{Costume.find(costume_caught_timeline.symbolize_keys[:target_costume_id])[:name]} (#{Pokemon.find(Costume.find(costume_caught_timeline.symbolize_keys[:target_costume_id])[:pokemon_id])[:name]})" },
         fast_move_id: { id: costume_caught_timeline.symbolize_keys[:fast_move_id], name: FastMove.find(costume_caught_timeline.symbolize_keys[:fast_move_id])[:name] },
         first_charge_move_id: { id: costume_caught_timeline.symbolize_keys[:first_charge_move_id], name: ChargeMove.find(costume_caught_timeline.symbolize_keys[:first_charge_move_id])[:name] },
         second_charge_move_id: { id: costume_caught_timeline.symbolize_keys[:second_charge_move_id], name: ChargeMove.find(costume_caught_timeline.symbolize_keys[:second_charge_move_id])[:name] },

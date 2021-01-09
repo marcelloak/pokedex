@@ -197,7 +197,8 @@ export default function Form(props) {
             <select onChange={onChange} name={column.name} value={params[column.name] || ''}>
               <option key={-1} value={''} >None</option>
               {foreignKeys[column.name].map ((key, index) =>{
-                return <option key={index} value={key.id}>{key.name}</option>
+                const keyName = column.name.includes('costume') || column.name.includes('form') ? `${key.name} (${key.pokemon_id.name})` : key.name
+                return <option key={index} value={key.id}>{keyName}</option>
               })}
             </select>
           </div>

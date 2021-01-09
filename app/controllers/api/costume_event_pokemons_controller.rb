@@ -4,7 +4,7 @@ class Api::CostumeEventPokemonsController < ApplicationController
     costume_event_pokemons = costume_event_pokemons.as_json.map { |costume_event_pokemon|
       {
         **costume_event_pokemon.symbolize_keys,
-        costume_id: { id: costume_event_pokemon.symbolize_keys[:costume_id], name: Costume.find(costume_event_pokemon.symbolize_keys[:costume_id])[:name] },
+        costume_id: { id: costume_event_pokemon.symbolize_keys[:costume_id], name: "#{Costume.find(costume_event_pokemon.symbolize_keys[:costume_id])[:name]} (#{Pokemon.find(Costume.find(costume_event_pokemon.symbolize_keys[:costume_id])[:pokemon_id])[:name]})" },
         event_timeline_id: { id: costume_event_pokemon.symbolize_keys[:event_timeline_id], name: EventTimeline.find(costume_event_pokemon.symbolize_keys[:event_timeline_id])[:name] }
       }
     }
