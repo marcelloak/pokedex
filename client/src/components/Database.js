@@ -1,5 +1,6 @@
 import React, { Fragment } from "react"
 import { Link } from "react-router-dom";
+import Button from '@material-ui/core/Button'
 
 export default function Database(props) {
   const titleCase = function(str) {
@@ -14,7 +15,7 @@ export default function Database(props) {
     return tables.map((table) => table.name).sort().map((table, index) => {
       return (
         <Fragment key={index}>
-          <Link to={`/database/${table}`} >{titleCase(table)}</Link>
+          <Button component={Link} to={`/database/${table}`}>{titleCase(table)}</Button>
           <br/>
         </Fragment>
       )

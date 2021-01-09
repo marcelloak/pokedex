@@ -1,19 +1,14 @@
-import React, { Fragment } from "react"
+import React from "react"
 import { Link } from "react-router-dom";
+import Button from '@material-ui/core/Button'
 
 export default function Nav(props) {
   return (
     <div className="nav-bar">
-      <Link to={'/'} >Home</Link>
-      <br/>
-      <Link to={`/pokedex`} >Pokedex</Link>
-      <br/>
-      <Link to={`/database`} >Database Forms</Link>
+      <Button component={Link} to="/pokedex">Pokedex</Button>
+      <Button component={Link} to="/database">Forms</Button>
       {!props.user && (
-        <Fragment>
-          <br/>
-          <Link to={`/user`} >Login</Link>
-        </Fragment>
+        <Button component={Link} to="/user">Login</Button>
       )}
     </div>
   )
