@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   get '/timeline_tables' => 'application#timeline_tables'
   get '/caught_tables' => 'application#caught_tables'
 
+  get '/routes' => 'pokedex#routes'
+  get '/released_pokemon' => 'pokedex#released_pokemon'
+  get '/released_shinies' => 'pokedex#released_shinies'
+
   namespace :api do
     resources :players
     resources :generations
