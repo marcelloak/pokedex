@@ -14,10 +14,7 @@ export default function Database(props) {
   const links = function(tables) {
     return tables.map((table) => table.name).sort().map((table, index) => {
       return (
-        <Fragment key={index}>
-          <Button component={Link} to={`/database/${table}`}>{titleCase(table)}</Button>
-          <br/>
-        </Fragment>
+        <Button key={index} style={{margin: '5px', border: '1px solid black'}} component={Link} to={`/database/${table}`}>{titleCase(table)}</Button>
       )
     })
   }
@@ -26,6 +23,7 @@ export default function Database(props) {
     <div className="database-page">
       {props.tables.map((table, index) => {
         return (<Fragment key={index}>
+          <br/>
           <br/>
           {links(table)}
         </Fragment>)
