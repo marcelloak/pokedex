@@ -1,11 +1,21 @@
 class PokedexController < ApplicationController
   def released_pokemon
-    const records = []
-    render :json => conversion(records)
+    pokemons = Pokemon.all.order(:id)
+    pokemons = pokemons.as_json.map { |pokemon|
+      {
+        **pokemon.symbolize_keys,
+        evolves_from_id: { id: pokemon.symbolize_keys[:evolves_from_id], name: pokemon.symbolize_keys[:evolves_from_id] ? Pokemon.find(pokemon.symbolize_keys[:evolves_from_id])[:name] : pokemon.symbolize_keys[:evolves_from_id] },
+        generation_id: { id: pokemon.symbolize_keys[:generation_id], name: Generation.find(pokemon.symbolize_keys[:generation_id])[:name] },
+        family_id: { id: pokemon.symbolize_keys[:family_id], name: Family.find(pokemon.symbolize_keys[:family_id])[:name] },
+        primary_type_id: { id: pokemon.symbolize_keys[:primary_type_id], name: Type.find(pokemon.symbolize_keys[:primary_type_id])[:icon] },
+        secondary_type_id: { id: pokemon.symbolize_keys[:secondary_type_id], name: pokemon.symbolize_keys[:secondary_type_id] ? Type.find(pokemon.symbolize_keys[:secondary_type_id])[:icon] : pokemon.symbolize_keys[:secondary_type_id] }
+      }
+    }
+    render :json => conversion(pokemons)
   end
   
   def released_shinies
-    const records = []
+    records = []
     render :json => conversion(records)
   end
   
@@ -14,6 +24,6 @@ class PokedexController < ApplicationController
   end
 
   def conversion(records)
-    return records ? [records[0].keys, **records] : ['None', { None: '' }]
+    return records.empty? ? [['None'], { None: '' }] : [records[0].keys, *records]
   end
 end
