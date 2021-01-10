@@ -9,6 +9,7 @@ import Login from './components/Login'
 import Database from './components/Database'
 import Pokedex from './components/Pokedex'
 import TypeChart from './components/pokedex/TypeChart'
+import PokedexRoute from './components/pokedex/PokedexRoute'
 
 export default function App() {
   const cookies = new Cookies()
@@ -16,6 +17,7 @@ export default function App() {
   const [tables, setTables] = useState([])
   const [timelineTables, setTimelineTables] = useState([])
   const [caughtTables, setCaughtTables] = useState([])
+  const [routes, setRoutes] = useState([])
   const [user, setUser] = useState(cookies.get('user'))
 
   useEffect(() => {
@@ -31,12 +33,24 @@ export default function App() {
     .then((response) => {
       setCaughtTables(response.data)
     })
+    axios.get('/routes')
+    .then((response) => {
+      setRoutes(response.data)
+    })
   }, []);
 
   const tableRoutes = function(tables) {
     return tables.map((table, index) => {
       return (
           <Route key={index} path={`/database/${table.name}`} render={(props) => (<Form {...props} user={user} table={table} />)} />
+      )
+    })
+  }
+
+  const pokedexRoutes = function(routes) {
+    return routes.map((route, index) => {
+      return (
+          <Route key={index} path={`/pokedex/${route}`} render={(props) => (<PokedexRoute {...props} route={route} />)} />
       )
     })
   }
@@ -50,8 +64,9 @@ export default function App() {
         {tableRoutes(tables)}
         {tableRoutes(timelineTables)}
         {tableRoutes(caughtTables)}
-        <Route exact path="/pokedex" component={Pokedex} />
+        <Route exact path="/pokedex" render={(props) => (<Pokedex {...props} routes={routes} />)} />
         <Route exact path="/pokedex/type_chart" component={TypeChart} />
+        {pokedexRoutes(routes)}
       </Switch>
     </Router>
   )
