@@ -1,6 +1,13 @@
 class Api::SpecialDaysController < ApplicationController
   def index
     special_days = SpecialDay.all.order(:id)
+    special_days = special_days.as_json.map { |special_day|
+      {
+        **special_day.symbolize_keys,
+        pokemon_id: { id: special_day.symbolize_keys[:pokemon_id], name: Pokemon.find(special_day.symbolize_keys[:pokemon_id])[:name] },
+        special_day_type_id: { id: special_day.symbolize_keys[:special_day_type_id], name: SpecialDayType.find(special_day.symbolize_keys[:special_day_type_id])[:name] }
+      }
+    }
 
     render :json => special_days
   end
