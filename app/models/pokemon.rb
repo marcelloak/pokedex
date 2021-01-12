@@ -19,4 +19,6 @@ class Pokemon < ApplicationRecord
   has_many :breakthrough_timelines
   has_many :pokemon_caught_timelines
   has_many :event_pokemons
+  has_many :seen_pokemons
+  has_many :rocket_member_shadows
 end

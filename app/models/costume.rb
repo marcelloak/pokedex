@@ -7,4 +7,5 @@ class Costume < ApplicationRecord
   has_many :costume_raid_timelines
   has_many :costume_event_pokemons
   has_many :costume_caught_timelines
+  has_many :costume_breakthrough_timelines
 end

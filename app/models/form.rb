@@ -10,4 +10,7 @@ class Form < ApplicationRecord
   has_many :form_raid_timelines
   has_many :form_event_pokemons
   has_many :form_caught_timelines
+  has_many :form_breakthrough_timelines
+  has_many :form_fast_moves
+  has_many :form_charge_moves
 end
