@@ -4,7 +4,7 @@ class Api::FormBreakthroughTimelinesController < ApplicationController
     form_breakthrough_timelines = form_breakthrough_timelines.as_json.map { |form_breakthrough_timeline|
       {
         **form_breakthrough_timeline.symbolize_keys,
-        form_id: { id: form_breakthrough_timeline.symbolize_keys[:form_id], name: Form.find(form_breakthrough_timeline.symbolize_keys[:form_id])[:name] }
+        form_id: { id: form_breakthrough_timeline.symbolize_keys[:form_id], name: "#{Form.find(form_breakthrough_timeline.symbolize_keys[:form_id])[:name]} (#{Pokemon.find(Form.find(form_breakthrough_timeline.symbolize_keys[:form_id])[:pokemon_id])[:name]})" }
       }
     }
 
