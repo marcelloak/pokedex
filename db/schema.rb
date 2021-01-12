@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_12_203444) do
+ActiveRecord::Schema.define(version: 2021_01_12_203954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,9 @@ ActiveRecord::Schema.define(version: 2021_01_12_203444) do
     t.bigint "current_level_id"
     t.bigint "target_level_id"
     t.boolean "high_iv"
+    t.boolean "raider"
+    t.boolean "defender"
+    t.string "pvp"
     t.index ["current_costume_id"], name: "index_costume_caught_timelines_on_current_costume_id"
     t.index ["current_level_id"], name: "index_costume_caught_timelines_on_current_level_id"
     t.index ["current_owner_id"], name: "index_costume_caught_timelines_on_current_owner_id"
@@ -197,6 +200,9 @@ ActiveRecord::Schema.define(version: 2021_01_12_203444) do
     t.bigint "current_level_id"
     t.bigint "target_level_id"
     t.boolean "high_iv"
+    t.boolean "raider"
+    t.boolean "defender"
+    t.string "pvp"
     t.index ["current_form_id"], name: "index_form_caught_timelines_on_current_form_id"
     t.index ["current_level_id"], name: "index_form_caught_timelines_on_current_level_id"
     t.index ["current_owner_id"], name: "index_form_caught_timelines_on_current_owner_id"
@@ -346,6 +352,9 @@ ActiveRecord::Schema.define(version: 2021_01_12_203444) do
     t.bigint "current_level_id"
     t.bigint "target_level_id"
     t.boolean "high_iv"
+    t.boolean "raider"
+    t.boolean "defender"
+    t.string "pvp"
     t.index ["current_evolution_id"], name: "index_pokemon_caught_timelines_on_current_evolution_id"
     t.index ["current_level_id"], name: "index_pokemon_caught_timelines_on_current_level_id"
     t.index ["current_owner_id"], name: "index_pokemon_caught_timelines_on_current_owner_id"
