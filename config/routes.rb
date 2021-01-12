@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     resources :charge_moves
     resources :pokemon_fast_moves
     resources :pokemon_charge_moves
+    resources :form_fast_moves
+    resources :form_charge_moves
     resources :pokemon_levels
     resources :medals
 
@@ -37,6 +39,8 @@ Rails.application.routes.draw do
     resources :form_raid_timelines
     resources :costume_raid_timelines
     resources :breakthrough_timelines
+    resources :form_breakthrough_timelines
+    resources :costume_breakthrough_timelines
     resources :special_research_timelines
     resources :gbl_timelines
     resources :special_league_timelines
@@ -50,10 +54,16 @@ Rails.application.routes.draw do
     resources :special_days
     resources :form_special_days
     resources :costume_special_days
+    resources :collection_challenges
+    resources :rocket_members
+    resources :rocket_member_shadows
 
     resources :pokemon_caught_timelines
     resources :form_caught_timelines
     resources :costume_caught_timelines
+    resources :seen_pokemons
+    resources :purchases
+    resources :candies
 
     get '/type_chart' => 'type_interactions#type_chart'
   end
