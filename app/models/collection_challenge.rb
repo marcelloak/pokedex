@@ -1,0 +1,2 @@
+class CollectionChallenge < ApplicationRecord
+end
