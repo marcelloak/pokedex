@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_12_205655) do
+ActiveRecord::Schema.define(version: 2021_01_12_212809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,14 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
     t.datetime "updated_at", null: false
     t.bigint "pokemon_id"
     t.index ["pokemon_id"], name: "index_breakthrough_timelines_on_pokemon_id"
+  end
+
+  create_table "candies", force: :cascade do |t|
+    t.integer "held"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "family_id"
+    t.index ["family_id"], name: "index_candies_on_family_id"
   end
 
   create_table "charge_moves", force: :cascade do |t|
@@ -36,6 +44,22 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
     t.datetime "updated_at", null: false
     t.bigint "type_id"
     t.index ["type_id"], name: "index_charge_moves_on_type_id"
+  end
+
+  create_table "collection_challenges", force: :cascade do |t|
+    t.string "name"
+    t.datetime "released"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "costume_breakthrough_timelines", force: :cascade do |t|
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "costume_id"
+    t.index ["costume_id"], name: "index_costume_breakthrough_timelines_on_costume_id"
   end
 
   create_table "costume_caught_timelines", force: :cascade do |t|
@@ -172,6 +196,15 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "form_breakthrough_timelines", force: :cascade do |t|
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "form_id"
+    t.index ["form_id"], name: "index_form_breakthrough_timelines_on_form_id"
+  end
+
   create_table "form_caught_timelines", force: :cascade do |t|
     t.datetime "caught"
     t.integer "attack"
@@ -210,6 +243,17 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
     t.index ["target_level_id"], name: "index_form_caught_timelines_on_target_level_id"
   end
 
+  create_table "form_charge_moves", force: :cascade do |t|
+    t.boolean "legacy"
+    t.boolean "elite"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "form_id"
+    t.bigint "charge_move_id"
+    t.index ["charge_move_id"], name: "index_form_charge_moves_on_charge_move_id"
+    t.index ["form_id"], name: "index_form_charge_moves_on_form_id"
+  end
+
   create_table "form_event_pokemons", force: :cascade do |t|
     t.string "method"
     t.datetime "created_at", null: false
@@ -218,6 +262,17 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
     t.bigint "event_timeline_id"
     t.index ["event_timeline_id"], name: "index_form_event_pokemons_on_event_timeline_id"
     t.index ["form_id"], name: "index_form_event_pokemons_on_form_id"
+  end
+
+  create_table "form_fast_moves", force: :cascade do |t|
+    t.boolean "legacy"
+    t.boolean "elite"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "form_id"
+    t.bigint "fast_move_id"
+    t.index ["fast_move_id"], name: "index_form_fast_moves_on_fast_move_id"
+    t.index ["form_id"], name: "index_form_fast_moves_on_form_id"
   end
 
   create_table "form_raid_timelines", force: :cascade do |t|
@@ -431,6 +486,16 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
     t.index ["secondary_type_id"], name: "index_pokemons_on_secondary_type_id"
   end
 
+  create_table "purchases", force: :cascade do |t|
+    t.datetime "purchased"
+    t.integer "coins"
+    t.boolean "ticket"
+    t.boolean "box"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "raid_timelines", force: :cascade do |t|
     t.datetime "start"
     t.datetime "end"
@@ -440,12 +505,36 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
     t.index ["pokemon_id"], name: "index_raid_timelines_on_pokemon_id"
   end
 
+  create_table "rocket_member_shadows", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "pokemon_id"
+    t.bigint "rocket_member_id"
+    t.index ["pokemon_id"], name: "index_rocket_member_shadows_on_pokemon_id"
+    t.index ["rocket_member_id"], name: "index_rocket_member_shadows_on_rocket_member_id"
+  end
+
+  create_table "rocket_members", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "season_timelines", force: :cascade do |t|
     t.string "name"
     t.datetime "start"
     t.datetime "end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "seen_pokemons", force: :cascade do |t|
+    t.boolean "lucky"
+    t.string "gender"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "pokemon_id"
+    t.index ["pokemon_id"], name: "index_seen_pokemons_on_pokemon_id"
   end
 
   create_table "shadow_timelines", force: :cascade do |t|
@@ -562,7 +651,9 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
   end
 
   add_foreign_key "breakthrough_timelines", "pokemons"
+  add_foreign_key "candies", "families"
   add_foreign_key "charge_moves", "types"
+  add_foreign_key "costume_breakthrough_timelines", "costumes"
   add_foreign_key "costume_caught_timelines", "fast_moves"
   add_foreign_key "costume_caught_timelines", "pokemon_levels", column: "current_level_id"
   add_foreign_key "costume_caught_timelines", "pokemon_levels", column: "target_level_id"
@@ -577,11 +668,16 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
   add_foreign_key "event_pokemons", "pokemons"
   add_foreign_key "families", "generations"
   add_foreign_key "fast_moves", "types"
+  add_foreign_key "form_breakthrough_timelines", "forms"
   add_foreign_key "form_caught_timelines", "fast_moves"
   add_foreign_key "form_caught_timelines", "pokemon_levels", column: "current_level_id"
   add_foreign_key "form_caught_timelines", "pokemon_levels", column: "target_level_id"
+  add_foreign_key "form_charge_moves", "charge_moves"
+  add_foreign_key "form_charge_moves", "forms"
   add_foreign_key "form_event_pokemons", "event_timelines"
   add_foreign_key "form_event_pokemons", "forms"
+  add_foreign_key "form_fast_moves", "fast_moves"
+  add_foreign_key "form_fast_moves", "forms"
   add_foreign_key "form_raid_timelines", "forms"
   add_foreign_key "form_special_days", "forms"
   add_foreign_key "form_special_days", "special_day_types"
@@ -599,6 +695,9 @@ ActiveRecord::Schema.define(version: 2021_01_12_205655) do
   add_foreign_key "pokemons", "families"
   add_foreign_key "pokemons", "generations"
   add_foreign_key "raid_timelines", "pokemons"
+  add_foreign_key "rocket_member_shadows", "pokemons"
+  add_foreign_key "rocket_member_shadows", "rocket_members"
+  add_foreign_key "seen_pokemons", "pokemons"
   add_foreign_key "shadow_timelines", "pokemons"
   add_foreign_key "shiny_costume_timelines", "costumes"
   add_foreign_key "shiny_form_timelines", "forms"
