@@ -46,6 +46,6 @@ class Api::PokemonLevelsController < ApplicationController
 
   private
     def pokemon_level_params
-      params.permit(:level, :stardust, :candy, :candy_xl, :cp_multiplier)
+      params.permit(:name, :stardust, :candy, :candy_xl, :cp_multiplier)
     end
 end

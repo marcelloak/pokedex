@@ -58,6 +58,6 @@ class Api::FormCaughtTimelinesController < ApplicationController
 
   private
     def form_caught_timeline_params
-      params.permit(:caught, :attack, :defence, :stamina, :current_level, :target_level, :gender, :shadow, :purified, :shiny, :lucky, :charge_move_unlocked, :transferred, :current_form_id, :target_form_id, :fast_move_id, :first_charge_move_id, :second_charge_move_id, :original_owner_id, :current_owner_id)
+      params.permit(:caught, :attack, :defence, :stamina, :current_level_id, :target_level_id, :gender, :shadow, :purified, :shiny, :lucky, :charge_move_unlocked, :transferred, :current_form_id, :target_form_id, :fast_move_id, :first_charge_move_id, :second_charge_move_id, :original_owner_id, :current_owner_id, :high_iv)
     end
 end
