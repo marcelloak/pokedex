@@ -1,6 +1,12 @@
 class Api::FamiliesController < ApplicationController
   def index
     families = Family.all.order(:id)
+    families = families.as_json.map { |family|
+      {
+        **family.symbolize_keys,
+        generation_id: { id: family.symbolize_keys[:generation_id], name: Generation.find(family.symbolize_keys[:generation_id])[:name] },
+      }
+    }
 
     render :json => families
   end
@@ -46,6 +52,6 @@ class Api::FamiliesController < ApplicationController
 
   private
     def family_params
-      params.permit(:name, :buddy_distance)
+      params.permit(:name, :buddy_distance, :generation_id)
     end
 end
