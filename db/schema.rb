@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_12_201209) do
+ActiveRecord::Schema.define(version: 2021_01_12_203444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,6 +146,8 @@ ActiveRecord::Schema.define(version: 2021_01_12_201209) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "buddy_distance"
+    t.bigint "generation_id"
+    t.index ["generation_id"], name: "index_families_on_generation_id"
   end
 
   create_table "fast_moves", force: :cascade do |t|
@@ -307,6 +309,7 @@ ActiveRecord::Schema.define(version: 2021_01_12_201209) do
     t.string "reward"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "requirement"
   end
 
   create_table "players", force: :cascade do |t|
@@ -568,6 +571,7 @@ ActiveRecord::Schema.define(version: 2021_01_12_201209) do
   add_foreign_key "costumes", "pokemons"
   add_foreign_key "event_pokemons", "event_timelines"
   add_foreign_key "event_pokemons", "pokemons"
+  add_foreign_key "families", "generations"
   add_foreign_key "fast_moves", "types"
   add_foreign_key "form_caught_timelines", "fast_moves"
   add_foreign_key "form_caught_timelines", "pokemon_levels", column: "current_level_id"

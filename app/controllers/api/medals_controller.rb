@@ -46,6 +46,6 @@ class Api::MedalsController < ApplicationController
 
   private
     def medal_params
-      params.permit(:name, :bronze, :silver, :gold, :platinum, :reward)
+      params.permit(:name, :bronze, :silver, :gold, :platinum, :reward, :requirement)
     end
 end
