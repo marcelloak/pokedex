@@ -285,7 +285,7 @@ export default function Form(props) {
 
   return (
     <Fragment>
-      <h3>{titleCase(props.table.name)}</h3>
+      <h3>{titleCase(props.table.name) + (records.length ? ` (${records.length})` : '')}</h3>
       <form onSubmit={submitHandler} className={`${props.table.name}-form`}>
         <div className='param-fields' >
           {paramFields()}
