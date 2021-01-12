@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_09_032625) do
+ActiveRecord::Schema.define(version: 2021_01_12_194252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,13 +61,18 @@ ActiveRecord::Schema.define(version: 2021_01_09_032625) do
     t.bigint "second_charge_move_id"
     t.bigint "original_owner_id"
     t.bigint "current_owner_id"
+    t.bigint "current_level_id"
+    t.bigint "target_level_id"
+    t.boolean "high_iv"
     t.index ["current_costume_id"], name: "index_costume_caught_timelines_on_current_costume_id"
+    t.index ["current_level_id"], name: "index_costume_caught_timelines_on_current_level_id"
     t.index ["current_owner_id"], name: "index_costume_caught_timelines_on_current_owner_id"
     t.index ["fast_move_id"], name: "index_costume_caught_timelines_on_fast_move_id"
     t.index ["first_charge_move_id"], name: "index_costume_caught_timelines_on_first_charge_move_id"
     t.index ["original_owner_id"], name: "index_costume_caught_timelines_on_original_owner_id"
     t.index ["second_charge_move_id"], name: "index_costume_caught_timelines_on_second_charge_move_id"
     t.index ["target_costume_id"], name: "index_costume_caught_timelines_on_target_costume_id"
+    t.index ["target_level_id"], name: "index_costume_caught_timelines_on_target_level_id"
   end
 
   create_table "costume_event_pokemons", force: :cascade do |t|
@@ -187,13 +192,18 @@ ActiveRecord::Schema.define(version: 2021_01_09_032625) do
     t.bigint "second_charge_move_id"
     t.bigint "original_owner_id"
     t.bigint "current_owner_id"
+    t.bigint "current_level_id"
+    t.bigint "target_level_id"
+    t.boolean "high_iv"
     t.index ["current_form_id"], name: "index_form_caught_timelines_on_current_form_id"
+    t.index ["current_level_id"], name: "index_form_caught_timelines_on_current_level_id"
     t.index ["current_owner_id"], name: "index_form_caught_timelines_on_current_owner_id"
     t.index ["fast_move_id"], name: "index_form_caught_timelines_on_fast_move_id"
     t.index ["first_charge_move_id"], name: "index_form_caught_timelines_on_first_charge_move_id"
     t.index ["original_owner_id"], name: "index_form_caught_timelines_on_original_owner_id"
     t.index ["second_charge_move_id"], name: "index_form_caught_timelines_on_second_charge_move_id"
     t.index ["target_form_id"], name: "index_form_caught_timelines_on_target_form_id"
+    t.index ["target_level_id"], name: "index_form_caught_timelines_on_target_level_id"
   end
 
   create_table "form_event_pokemons", force: :cascade do |t|
@@ -330,13 +340,18 @@ ActiveRecord::Schema.define(version: 2021_01_09_032625) do
     t.bigint "second_charge_move_id"
     t.bigint "original_owner_id"
     t.bigint "current_owner_id"
+    t.bigint "current_level_id"
+    t.bigint "target_level_id"
+    t.boolean "high_iv"
     t.index ["current_evolution_id"], name: "index_pokemon_caught_timelines_on_current_evolution_id"
+    t.index ["current_level_id"], name: "index_pokemon_caught_timelines_on_current_level_id"
     t.index ["current_owner_id"], name: "index_pokemon_caught_timelines_on_current_owner_id"
     t.index ["fast_move_id"], name: "index_pokemon_caught_timelines_on_fast_move_id"
     t.index ["first_charge_move_id"], name: "index_pokemon_caught_timelines_on_first_charge_move_id"
     t.index ["original_owner_id"], name: "index_pokemon_caught_timelines_on_original_owner_id"
     t.index ["second_charge_move_id"], name: "index_pokemon_caught_timelines_on_second_charge_move_id"
     t.index ["target_evolution_id"], name: "index_pokemon_caught_timelines_on_target_evolution_id"
+    t.index ["target_level_id"], name: "index_pokemon_caught_timelines_on_target_level_id"
   end
 
   create_table "pokemon_charge_moves", force: :cascade do |t|
@@ -542,6 +557,8 @@ ActiveRecord::Schema.define(version: 2021_01_09_032625) do
   add_foreign_key "breakthrough_timelines", "pokemons"
   add_foreign_key "charge_moves", "types"
   add_foreign_key "costume_caught_timelines", "fast_moves"
+  add_foreign_key "costume_caught_timelines", "pokemon_levels", column: "current_level_id"
+  add_foreign_key "costume_caught_timelines", "pokemon_levels", column: "target_level_id"
   add_foreign_key "costume_event_pokemons", "costumes"
   add_foreign_key "costume_event_pokemons", "event_timelines"
   add_foreign_key "costume_raid_timelines", "costumes"
@@ -553,6 +570,8 @@ ActiveRecord::Schema.define(version: 2021_01_09_032625) do
   add_foreign_key "event_pokemons", "pokemons"
   add_foreign_key "fast_moves", "types"
   add_foreign_key "form_caught_timelines", "fast_moves"
+  add_foreign_key "form_caught_timelines", "pokemon_levels", column: "current_level_id"
+  add_foreign_key "form_caught_timelines", "pokemon_levels", column: "target_level_id"
   add_foreign_key "form_event_pokemons", "event_timelines"
   add_foreign_key "form_event_pokemons", "forms"
   add_foreign_key "form_raid_timelines", "forms"
@@ -562,6 +581,8 @@ ActiveRecord::Schema.define(version: 2021_01_09_032625) do
   add_foreign_key "forms", "pokemons"
   add_foreign_key "medal_timelines", "medals"
   add_foreign_key "pokemon_caught_timelines", "fast_moves"
+  add_foreign_key "pokemon_caught_timelines", "pokemon_levels", column: "current_level_id"
+  add_foreign_key "pokemon_caught_timelines", "pokemon_levels", column: "target_level_id"
   add_foreign_key "pokemon_charge_moves", "charge_moves"
   add_foreign_key "pokemon_charge_moves", "pokemons"
   add_foreign_key "pokemon_fast_moves", "fast_moves"
