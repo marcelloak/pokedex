@@ -1,10 +1,11 @@
 class PokedexController < ApplicationController
   def released_pokemon
+    now = DateTime.now
     pokemons = Pokemon.all
     generations = Generation.all
     families = Family.all
     types = Type.all
-    released = PokemonTimeline.all.pluck(:pokemon_id)
+    released = PokemonTimeline.where('released < ?', now).pluck(:pokemon_id)
     released = (pokemons.select { |pokemon| released.include?(pokemon[:id])}).as_json.map { |pokemon|
       {
         **pokemon.symbolize_keys,
@@ -20,11 +21,12 @@ class PokedexController < ApplicationController
   end
   
   def released_shinies
+    now = DateTime.now
     pokemons = Pokemon.all
     generations = Generation.all
     families = Family.all
     types = Type.all
-    released = ShinyTimeline.all.pluck(:pokemon_id)
+    released = ShinyTimeline.where('released < ?', now).pluck(:pokemon_id)
     released = (pokemons.select { |pokemon| released.include?(pokemon[:id])}).as_json.map { |pokemon|
       {
         **pokemon.symbolize_keys,
@@ -40,12 +42,13 @@ class PokedexController < ApplicationController
   end
   
   def unreleased_shinies
+    now = DateTime.now
     pokemons = Pokemon.all
     generations = Generation.all
     families = Family.all
     types = Type.all
-    released = PokemonTimeline.all.pluck(:pokemon_id)
-    shinies = ShinyTimeline.all.pluck(:pokemon_id)
+    released = PokemonTimeline.where('released < ?', now).pluck(:pokemon_id)
+    shinies = ShinyTimeline.where('released < ?', now).pluck(:pokemon_id)
     released = (pokemons.select { |pokemon| released.include?(pokemon[:id]) && !shinies.include?(pokemon[:id]) }).as_json.map { |pokemon|
       {
         **pokemon.symbolize_keys,
