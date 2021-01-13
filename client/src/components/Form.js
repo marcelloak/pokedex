@@ -106,9 +106,11 @@ export default function Form(props) {
 
   useEffect(() => {
     console.log('asked for records')
+    console.log(new Date())
     axios.get(`/api/${props.table.name}`)
     .then((response) => {
       console.log('received records')
+      console.log(new Date())
       setRecords(response.data)
     })
     setEditing(false)
