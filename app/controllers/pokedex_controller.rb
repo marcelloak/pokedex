@@ -1,6 +1,7 @@
 class PokedexController < ApplicationController
   def released_pokemon
-    pokemons = Pokemon.all.order(:id)
+    released = PokemonTimeline.all.pluck(:pokemon_id)
+    pokemons = Pokemon.all.select { |pokemon| released.include?(pokemon[:id])}
     pokemons = pokemons.as_json.map { |pokemon|
       {
         **pokemon.symbolize_keys,
@@ -15,8 +16,9 @@ class PokedexController < ApplicationController
   end
   
   def released_shinies
-    records = []
-    render :json => conversion(records)
+    released = ShinyTimeline.all.pluck(:pokemon_id)
+    shinies = Pokemon.all.select { |pokemon| released.include?(pokemon[:id])}
+    render :json => conversion(shinies)
   end
   
   def routes
@@ -24,6 +26,6 @@ class PokedexController < ApplicationController
   end
 
   def conversion(records)
-    return records.empty? ? [] : [records[0].keys, *records]
+    return records.empty? ? [] : [records.as_json[0].symbolize_keys.keys, *records]
   end
 end
