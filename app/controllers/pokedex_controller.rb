@@ -3,7 +3,7 @@ class PokedexController < ApplicationController
     now = DateTime.now
     pokemons = Pokemon.all
     released = PokemonTimeline.where('released < ?', now).pluck(:pokemon_id)
-    caught = PokemonCaughtTimeline.all.pluck(:target_evolution_id)
+    caught = PokemonCaughtTimeline.where(:shiny => false).pluck(:target_evolution_id)
     need = {}
     (pokemons.select { |pokemon| released.include?(pokemon[:id]) && !caught.include?(pokemon[:id]) }).each { |pokemon|
       need[pokemon[:id]] = {
