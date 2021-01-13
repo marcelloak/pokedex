@@ -15,13 +15,28 @@ class PokedexController < ApplicationController
         secondary_type_id: { id: pokemon.symbolize_keys[:secondary_type_id], name: pokemon.symbolize_keys[:secondary_type_id] ? (types.find {|x| x[:id] == pokemon.symbolize_keys[:secondary_type_id]})[:icon] : pokemon.symbolize_keys[:secondary_type_id] }
       }
     }
+
     render :json => conversion(released)
   end
   
   def released_shinies
+    pokemons = Pokemon.all
+    generations = Generation.all
+    families = Family.all
+    types = Type.all
     released = ShinyTimeline.all.pluck(:pokemon_id)
-    shinies = Pokemon.all.select { |pokemon| released.include?(pokemon[:id])}
-    render :json => conversion(shinies)
+    released = (pokemons.select { |pokemon| released.include?(pokemon[:id])}).as_json.map { |pokemon|
+      {
+        **pokemon.symbolize_keys,
+        evolves_from_id: { id: pokemon.symbolize_keys[:evolves_from_id], name: pokemon.symbolize_keys[:evolves_from_id] ? (pokemons.find {|x| x[:id] == pokemon.symbolize_keys[:evolves_from_id]})[:name] : pokemon.symbolize_keys[:evolves_from_id] },
+        generation_id: { id: pokemon.symbolize_keys[:generation_id], name: (generations.find {|x| x[:id] == pokemon.symbolize_keys[:generation_id]})[:name] },
+        family_id: { id: pokemon.symbolize_keys[:family_id], name: (families.find {|x| x[:id] == pokemon.symbolize_keys[:family_id]})[:name] },
+        primary_type_id: { id: pokemon.symbolize_keys[:primary_type_id], name: (types.find {|x| x[:id] == pokemon.symbolize_keys[:primary_type_id]})[:icon] },
+        secondary_type_id: { id: pokemon.symbolize_keys[:secondary_type_id], name: pokemon.symbolize_keys[:secondary_type_id] ? (types.find {|x| x[:id] == pokemon.symbolize_keys[:secondary_type_id]})[:icon] : pokemon.symbolize_keys[:secondary_type_id] }
+      }
+    }
+
+    render :json => conversion(released)
   end
 
   def purchase_stats
@@ -39,7 +54,7 @@ class PokedexController < ApplicationController
       total_coin_dollars = Purchase.where(:ticket => false, :box => false).sum(:price)
       dollars_spent_last_week = Purchase.where('purchased > ?', now - 7).sum(:price)
       dollars_spent_last_month = Purchase.where('purchased > ?', now - 30).sum(:price)
-      dollars_spent_last_quarter = Purchase.where('purchased > ?', now - 120).sum(:price)
+      dollars_spent_last_quarter = Purchase.where('purchased > ?', now - 90).sum(:price)
       dollars_spent_last_year = Purchase.where('purchased > ?', now - 365).sum(:price)
 
       stats[0] = {
