@@ -1,4 +1,34 @@
 class PokedexController < ApplicationController
+  def needed_pokemon
+    now = DateTime.now
+    pokemons = Pokemon.all
+    released = PokemonTimeline.where('released < ?', now).pluck(:pokemon_id)
+    caught = PokemonCaughtTimeline.all.pluck(:target_evolution_id)
+    need = {}
+    (pokemons.select { |pokemon| released.include?(pokemon[:id]) && !caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = {
+        id: pokemon[:id],
+        name: pokemon[:name],
+        need: 'Y'
+      }
+    }
+
+    shiny_released = ShinyTimeline.where('released < ?', now).pluck(:pokemon_id)
+    shiny_caught = PokemonCaughtTimeline.where(:shiny => 'Y').pluck(:target_evolution_id)
+    (pokemons.select { |pokemon| shiny_released.include?(pokemon[:id]) && !shiny_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny: 'Y' } : {
+        id: pokemon[:id],
+        name: pokemon[:name],
+        shiny: 'Y'
+      }
+    }
+
+    needed = []
+    need.keys.each { |key| needed.push(need[key]) }
+
+    render :json => conversion(needed)
+  end
+
   def released_pokemon
     now = DateTime.now
     pokemons = Pokemon.all
@@ -110,7 +140,7 @@ class PokedexController < ApplicationController
   end
   
   def routes
-    render :json => ['released_pokemon', 'released_shinies', 'unreleased_shinies', 'purchase_stats']
+    render :json => ['needed_pokemon', 'released_pokemon', 'released_shinies', 'unreleased_shinies', 'purchase_stats']
   end
 
   def conversion(records)

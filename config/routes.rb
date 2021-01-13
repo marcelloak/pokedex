@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/caught_tables' => 'application#caught_tables'
 
   get '/routes' => 'pokedex#routes'
+  get '/needed_pokemon' => 'pokedex#needed_pokemon'
   get '/released_pokemon' => 'pokedex#released_pokemon'
   get '/released_shinies' => 'pokedex#released_shinies'
   get '/unreleased_shinies' => 'pokedex#unreleased_shinies'
