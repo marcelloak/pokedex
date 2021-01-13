@@ -38,6 +38,27 @@ class PokedexController < ApplicationController
 
     render :json => conversion(released)
   end
+  
+  def unreleased_shinies
+    pokemons = Pokemon.all
+    generations = Generation.all
+    families = Family.all
+    types = Type.all
+    released = PokemonTimeline.all.pluck(:pokemon_id)
+    shinies = ShinyTimeline.all.pluck(:pokemon_id)
+    released = (pokemons.select { |pokemon| released.include?(pokemon[:id]) && !shinies.include?(pokemon[:id]) }).as_json.map { |pokemon|
+      {
+        **pokemon.symbolize_keys,
+        evolves_from_id: { id: pokemon.symbolize_keys[:evolves_from_id], name: pokemon.symbolize_keys[:evolves_from_id] ? (pokemons.find {|x| x[:id] == pokemon.symbolize_keys[:evolves_from_id]})[:name] : pokemon.symbolize_keys[:evolves_from_id] },
+        generation_id: { id: pokemon.symbolize_keys[:generation_id], name: (generations.find {|x| x[:id] == pokemon.symbolize_keys[:generation_id]})[:name] },
+        family_id: { id: pokemon.symbolize_keys[:family_id], name: (families.find {|x| x[:id] == pokemon.symbolize_keys[:family_id]})[:name] },
+        primary_type_id: { id: pokemon.symbolize_keys[:primary_type_id], name: (types.find {|x| x[:id] == pokemon.symbolize_keys[:primary_type_id]})[:icon] },
+        secondary_type_id: { id: pokemon.symbolize_keys[:secondary_type_id], name: pokemon.symbolize_keys[:secondary_type_id] ? (types.find {|x| x[:id] == pokemon.symbolize_keys[:secondary_type_id]})[:icon] : pokemon.symbolize_keys[:secondary_type_id] }
+      }
+    }
+
+    render :json => conversion(released)
+  end
 
   def purchase_stats
     stats = []
@@ -84,7 +105,7 @@ class PokedexController < ApplicationController
   end
   
   def routes
-    render :json => ['released_pokemon', 'released_shinies', 'purchase_stats']
+    render :json => ['released_pokemon', 'released_shinies', 'unreleased_shinies', 'purchase_stats']
   end
 
   def conversion(records)
