@@ -61,7 +61,7 @@ class PokedexController < ApplicationController
         dollars_spent_last_year: dollars_spent_last_year,
         dollars_spent_per_day_last_week: (dollars_spent_last_week / 7.0).round(2),
         dollars_spent_per_day_last_month: (dollars_spent_last_month / 30.0).round(2),
-        dollars_spent_per_day_last_quarter: (dollars_spent_last_quarter / 120.0).round(2),
+        dollars_spent_per_day_last_quarter: (dollars_spent_last_quarter / 90.0).round(2),
         dollars_spent_per_day_last_year: (dollars_spent_last_year / 365.0).round(2)
       }
     end
