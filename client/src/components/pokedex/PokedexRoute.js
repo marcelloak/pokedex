@@ -55,6 +55,21 @@ export default function PokedexRoute(props) {
     return c
   }
 
+  const getDisplay = function() {
+    if (records.length === 0) return <p>None</p>
+    if (records.length === 1) return (
+      columns.filter((column) => column !== 'created_at' && column !== 'updated_at').map((column, index) => {
+        if (String(records[0][column]).includes('.png')) return <p key={index}>{titleCase(column)}: <img src={records[0][column]} alt={records[0][column]} width={30} height={30}/></p>
+        if (column.includes('_id')) {
+          if (String(records[0][column].name).includes('.png')) return <p key={index}>{titleCase(column)}: <img src={records[0][column].name} alt={records[0][column].name} width={30} height={30}/></p>
+          return <p key={index}>{titleCase(column)}: {records[0][column].name}</p>
+        }
+        return <p key={index}>{titleCase(column)}: {String(records[0][column]).includes('T00:00:00.000Z') ? records[0][column].split('T')[0] : records[0][column]}</p>
+      })
+    )
+    return getRecordRows()
+  }
+
   const getRecordRows = function() {
     return (<table>
       <thead>
@@ -88,7 +103,7 @@ export default function PokedexRoute(props) {
   return (
     <Fragment>
       <h3>{titleCase(props.route)}</h3>
-      {getRecordRows()}
+      {getDisplay()}
     </Fragment>
   )
 }

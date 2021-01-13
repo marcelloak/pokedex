@@ -24,6 +24,6 @@ class PokedexController < ApplicationController
   end
 
   def conversion(records)
-    return records.empty? ? [['None'], { None: '' }] : [records[0].keys, *records]
+    return records.empty? ? [] : [records[0].keys, *records]
   end
 end
