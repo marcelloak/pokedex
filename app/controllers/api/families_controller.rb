@@ -50,6 +50,12 @@ class Api::FamiliesController < ApplicationController
     }
   end
 
+  def foreign_keys
+    families = Family.all.order(:id)
+
+    render :json => families
+  end
+
   private
     def family_params
       params.permit(:name, :buddy_distance, :generation_id)

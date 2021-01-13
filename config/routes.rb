@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     get '/type_chart' => 'type_interactions#type_chart'
 
     get '/fk/pokemons' => 'pokemons#foreign_keys'
+    get '/fk/families' => 'families#foreign_keys'
   end
 
   get '*path', to: "static_pages#fallback_index_html", constraints: ->(request) do

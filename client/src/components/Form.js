@@ -15,7 +15,7 @@ export default function Form(props) {
   const getForeignKeys = function() {
     props.table.columns.forEach((column) => {
       if (column.name.includes('_id')) {
-        axios.get(`/api/${props.table.foreign_keys[column.name.slice(0, -3)] === 'pokemons' ? 'fk/' : ''}${props.table.foreign_keys[column.name.slice(0, -3)]}`)
+        axios.get(`/api/${props.table.foreign_keys[column.name.slice(0, -3)] === 'pokemons' || props.table.foreign_keys[column.name.slice(0, -3)] === 'families' ? 'fk/' : ''}${props.table.foreign_keys[column.name.slice(0, -3)]}`)
         .then((response) => {
           setForeignKeys((current) => {
            return { ...current, [column.name]: response.data }
