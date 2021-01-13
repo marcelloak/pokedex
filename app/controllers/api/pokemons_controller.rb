@@ -1,8 +1,5 @@
 class Api::PokemonsController < ApplicationController
   def index
-    puts '------------------------------'
-    puts 'received request'
-    puts DateTime.now
     pokemons = Pokemon.all.order(:id)
     generations = Generation.all
     families = Family.all
@@ -18,9 +15,6 @@ class Api::PokemonsController < ApplicationController
       }
     }
 
-    puts '------------------------------'
-    puts 'returning data'
-    puts DateTime.now
     render :json => pokemons
   end
 
