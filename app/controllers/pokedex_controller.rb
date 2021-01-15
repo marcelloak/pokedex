@@ -35,6 +35,79 @@ class PokedexController < ApplicationController
       need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_purified: 'Y' } : { id: pokemon[:id], name: pokemon[:name], shiny_purified: 'Y' }
     }
 
+    male_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => false, :purified => false, :gender => 'M').pluck(:target_evolution_id)
+    female_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => false, :purified => false, :gender => 'F').pluck(:target_evolution_id)
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && released.include?(pokemon[:id]) && !male_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], need: 'M' } : { id: pokemon[:id], name: pokemon[:name], need: 'M' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && released.include?(pokemon[:id]) && !female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], need: 'F' } : { id: pokemon[:id], name: pokemon[:name], need: 'F' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && released.include?(pokemon[:id]) && !male_caught.include?(pokemon[:id]) && !female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], need: 'MF' } : { id: pokemon[:id], name: pokemon[:name], need: 'MF' }
+    }
+
+    shiny_male_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => false, :purified => false, :gender => 'M').pluck(:target_evolution_id)
+    shiny_female_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => false, :purified => false, :gender => 'F').pluck(:target_evolution_id)
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shiny_released.include?(pokemon[:id]) && !shiny_male_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny: 'M' } : { id: pokemon[:id], name: pokemon[:name], shiny: 'M' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shiny_released.include?(pokemon[:id]) && !shiny_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny: 'F' } : { id: pokemon[:id], name: pokemon[:name], shiny: 'F' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shiny_released.include?(pokemon[:id]) && !shiny_male_caught.include?(pokemon[:id]) && !shiny_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny: 'MF' } : { id: pokemon[:id], name: pokemon[:name], shiny: 'MF' }
+    }
+
+    shadow_male_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => true, :purified => false, :gender => 'M').pluck(:target_evolution_id)
+    shadow_female_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => true, :purified => false, :gender => 'F').pluck(:target_evolution_id)
+    purified_male_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => false, :purified => true, :gender => 'M').pluck(:target_evolution_id)
+    purified_female_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => false, :purified => true, :gender => 'F').pluck(:target_evolution_id)
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shadow_released.include?(pokemon[:id]) && !shadow_male_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shadow: 'M' } : { id: pokemon[:id], name: pokemon[:name], shadow: 'M' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shadow_released.include?(pokemon[:id]) && !shadow_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shadow: 'F' } : { id: pokemon[:id], name: pokemon[:name], shadow: 'F' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shadow_released.include?(pokemon[:id]) && !shadow_male_caught.include?(pokemon[:id]) && !shadow_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shadow: 'MF' } : { id: pokemon[:id], name: pokemon[:name], shadow: 'MF' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shadow_released.include?(pokemon[:id]) && !purified_male_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], purified: 'M' } : { id: pokemon[:id], name: pokemon[:name], purified: 'M' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shadow_released.include?(pokemon[:id]) && !purified_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], purified: 'F' } : { id: pokemon[:id], name: pokemon[:name], purified: 'F' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shadow_released.include?(pokemon[:id]) && !purified_male_caught.include?(pokemon[:id]) && !purified_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], purified: 'MF' } : { id: pokemon[:id], name: pokemon[:name], purified: 'MF' }
+    }
+
+    shiny_shadow_male_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => true, :purified => false, :gender => 'M').pluck(:target_evolution_id)
+    shiny_shadow_female_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => true, :purified => false, :gender => 'F').pluck(:target_evolution_id)
+    shiny_purified_male_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => false, :purified => true, :gender => 'M').pluck(:target_evolution_id)
+    shiny_purified_female_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => false, :purified => true, :gender => 'F').pluck(:target_evolution_id)
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shiny_shadow_released.include?(pokemon[:id]) && !shiny_shadow_male_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_shadow: 'M' } : { id: pokemon[:id], name: pokemon[:name], shiny_shadow: 'M' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shiny_shadow_released.include?(pokemon[:id]) && !shiny_shadow_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_shadow: 'F' } : { id: pokemon[:id], name: pokemon[:name], shiny_shadow: 'F' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shiny_shadow_released.include?(pokemon[:id]) && !shiny_shadow_male_caught.include?(pokemon[:id]) && !shiny_shadow_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_shadow: 'MF' } : { id: pokemon[:id], name: pokemon[:name], shiny_shadow: 'MF' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shiny_shadow_released.include?(pokemon[:id]) && !shiny_purified_male_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_purified: 'M' } : { id: pokemon[:id], name: pokemon[:name], shiny_purified: 'M' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shiny_shadow_released.include?(pokemon[:id]) && !shiny_purified_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_purified: 'F' } : { id: pokemon[:id], name: pokemon[:name], shiny_purified: 'F' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && shiny_shadow_released.include?(pokemon[:id]) && !shiny_purified_male_caught.include?(pokemon[:id]) && !shiny_purified_female_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_purified: 'MF' } : { id: pokemon[:id], name: pokemon[:name], shiny_purified: 'MF' }
+    }
+
+    keys = [:need, :shiny, :shadow, :purified, :shiny_shadow, :shiny_purified]
+    keys.each { |key| need[need.keys[0]][key] = need[need.keys[0]][key] ? need[need.keys[0]][key] : '' }
+
     needed = []
     need.keys.each { |key| needed.push(need[key]) }
 
