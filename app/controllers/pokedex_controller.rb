@@ -3,24 +3,36 @@ class PokedexController < ApplicationController
     now = DateTime.now
     pokemons = Pokemon.all
     released = PokemonTimeline.where('released < ?', now).pluck(:pokemon_id)
-    caught = PokemonCaughtTimeline.where(:shiny => false).pluck(:target_evolution_id)
+    caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => false, :purified => false).pluck(:target_evolution_id)
     need = {}
     (pokemons.select { |pokemon| released.include?(pokemon[:id]) && !caught.include?(pokemon[:id]) }).each { |pokemon|
-      need[pokemon[:id]] = {
-        id: pokemon[:id],
-        name: pokemon[:name],
-        need: 'Y'
-      }
+      need[pokemon[:id]] = { id: pokemon[:id], name: pokemon[:name], need: 'Y' }
     }
 
     shiny_released = ShinyTimeline.where('released < ?', now).pluck(:pokemon_id)
-    shiny_caught = PokemonCaughtTimeline.where(:shiny => 'Y').pluck(:target_evolution_id)
+    shiny_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => false, :purified => false).pluck(:target_evolution_id)
     (pokemons.select { |pokemon| shiny_released.include?(pokemon[:id]) && !shiny_caught.include?(pokemon[:id]) }).each { |pokemon|
-      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny: 'Y' } : {
-        id: pokemon[:id],
-        name: pokemon[:name],
-        shiny: 'Y'
-      }
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny: 'Y' } : { id: pokemon[:id], name: pokemon[:name], shiny: 'Y' }
+    }
+
+    shadow_released = ShadowTimeline.where('released < ?', now).pluck(:pokemon_id)
+    shadow_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => true).pluck(:target_evolution_id)
+    purified_caught = PokemonCaughtTimeline.where(:shiny => false, :purified => true).pluck(:target_evolution_id)
+    (pokemons.select { |pokemon| shadow_released.include?(pokemon[:id]) && !shadow_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shadow: 'Y' } : { id: pokemon[:id], name: pokemon[:name], shadow: 'Y' }
+    }
+    (pokemons.select { |pokemon| shadow_released.include?(pokemon[:id]) && !purified_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], purified: 'Y' } : { id: pokemon[:id], name: pokemon[:name], purified: 'Y' }
+    }
+
+    shiny_shadow_released = ShinyShadowTimeline.where('released < ?', now).pluck(:pokemon_id)
+    shiny_shadow_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => true).pluck(:target_evolution_id)
+    shiny_purified_caught = PokemonCaughtTimeline.where(:shiny => true, :purified => true).pluck(:target_evolution_id)
+    (pokemons.select { |pokemon| shiny_shadow_released.include?(pokemon[:id]) && !shiny_shadow_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_shadow: 'Y' } : { id: pokemon[:id], name: pokemon[:name], shiny_shadow: 'Y' }
+    }
+    (pokemons.select { |pokemon| shiny_shadow_released.include?(pokemon[:id]) && !shiny_purified_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_purified: 'Y' } : { id: pokemon[:id], name: pokemon[:name], shiny_purified: 'Y' }
     }
 
     needed = []
