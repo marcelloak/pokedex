@@ -152,11 +152,15 @@ class PokedexController < ApplicationController
   end
 
   def raiders
-    render :json => conversion([])
+    raiders = PokemonCaughtTimeline.where(:raider => true).map { |pokemon| { name: pokemon.target_evolution[:name], currently: pokemon.current_evolution[:name] } }
+
+    render :json => conversion(raiders)
   end
 
   def pvp
-    render :json => conversion([])
+    pvp = PokemonCaughtTimeline.where.not(:pvp => '').map { |pokemon| { name: pokemon.target_evolution[:name], currently: pokemon.current_evolution[:name], league: pokemon[:pvp] } }
+
+    render :json => conversion(pvp)
   end
 
   def purchase_stats
