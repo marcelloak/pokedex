@@ -2,12 +2,18 @@ class PokedexController < ApplicationController
   def needed_pokemon
     now = DateTime.now
     pokemons = Pokemon.all
+    need = {}
+    
     released = PokemonTimeline.where('released < ?', now).pluck(:pokemon_id)
     caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => false, :purified => false).pluck(:target_evolution_id)
-    need = {}
     (pokemons.select { |pokemon| released.include?(pokemon[:id]) && !caught.include?(pokemon[:id]) }).each { |pokemon|
-      need[pokemon[:id]] = { id: pokemon[:id], name: pokemon[:name], need: 'Y' }
+    need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], need: 'Y' } : { id: pokemon[:id], name: pokemon[:name], need: 'Y' }
     }
+    
+    iv_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => false, :purified => false, :high_iv => true).pluck(:target_evolution_id)
+    (pokemons.select { |pokemon| released.include?(pokemon[:id]) && !iv_caught.include?(pokemon[:id]) }).each { |pokemon|
+    need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], iv: 'Y' } : { id: pokemon[:id], name: pokemon[:name], iv: 'Y' }
+  }
 
     shiny_released = ShinyTimeline.where('released < ?', now).pluck(:pokemon_id)
     shiny_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => false, :purified => false).pluck(:target_evolution_id)
@@ -45,6 +51,18 @@ class PokedexController < ApplicationController
     }
     (pokemons.select { |pokemon| pokemon[:gender_variant] && released.include?(pokemon[:id]) && !male_caught.include?(pokemon[:id]) && !female_caught.include?(pokemon[:id]) }).each { |pokemon|
       need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], need: 'MF' } : { id: pokemon[:id], name: pokemon[:name], need: 'MF' }
+    }
+    
+    male_iv_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => false, :purified => false, :high_iv => true, :gender => 'M').pluck(:target_evolution_id)
+    female_iv_caught = PokemonCaughtTimeline.where(:shiny => false, :shadow => false, :purified => false, :high_iv => true, :gender => 'F').pluck(:target_evolution_id)
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && released.include?(pokemon[:id]) && !male_iv_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], iv: 'M' } : { id: pokemon[:id], name: pokemon[:name], iv: 'M' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && released.include?(pokemon[:id]) && !female_iv_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], iv: 'F' } : { id: pokemon[:id], name: pokemon[:name], iv: 'F' }
+    }
+    (pokemons.select { |pokemon| pokemon[:gender_variant] && released.include?(pokemon[:id]) && !male_iv_caught.include?(pokemon[:id]) && !female_iv_caught.include?(pokemon[:id]) }).each { |pokemon|
+      need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], iv: 'MF' } : { id: pokemon[:id], name: pokemon[:name], iv: 'MF' }
     }
 
     shiny_male_caught = PokemonCaughtTimeline.where(:shiny => true, :shadow => false, :purified => false, :gender => 'M').pluck(:target_evolution_id)
@@ -105,7 +123,7 @@ class PokedexController < ApplicationController
       need[pokemon[:id]] = need[pokemon[:id]] ? { **need[pokemon[:id]], shiny_purified: 'MF' } : { id: pokemon[:id], name: pokemon[:name], shiny_purified: 'MF' }
     }
 
-    keys = [:need, :shiny, :shadow, :purified, :shiny_shadow, :shiny_purified]
+    keys = [:need, :iv, :shiny, :shadow, :purified, :shiny_shadow, :shiny_purified]
     keys.each { |key| need[need.keys[0]][key] = need[need.keys[0]][key] ? need[need.keys[0]][key] : '' }
 
     needed = []
