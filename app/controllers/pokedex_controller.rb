@@ -132,6 +132,25 @@ class PokedexController < ApplicationController
     render :json => conversion(needed)
   end
 
+  def unseen_uncaught
+    needed = []
+    # Get seen count and total and caught count and total and put them in the arrays first
+    # Then grab all unseen, uncaught and ignored
+    unseen = []
+    uncaught = []
+    ignored = []
+
+    while needed.length < unseen.length || needed.length < uncaught.length || needed.length < ignored.length do
+      need = {}
+      need[:unseen] = unseen[needed.length] ? unseen[needed.length] : ''
+      need[:uncaught] = uncaught[needed.length] ? uncaught[needed.length] : ''
+      need[:ignored] = ignored[needed.length] ? ignored[needed.length] : ''
+      needed.push(need)
+    end
+
+    render :json => conversion(needed)
+  end
+
   def raiders
     render :json => conversion([])
   end
@@ -251,7 +270,7 @@ class PokedexController < ApplicationController
   end
   
   def routes
-    render :json => ['needed_pokemon', 'raiders', 'pvp', 'purchase_stats', 'released_pokemon', 'released_shinies', 'unreleased_shinies']
+    render :json => ['needed_pokemon', 'unseen/uncaught_pokemon', 'raiders', 'pvp', 'purchase_stats', 'released_pokemon', 'released_shinies', 'unreleased_shinies']
   end
 
   def conversion(records)
