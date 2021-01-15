@@ -7,10 +7,12 @@ Rails.application.routes.draw do
 
   get '/routes' => 'pokedex#routes'
   get '/needed_pokemon' => 'pokedex#needed_pokemon'
+  get '/raiders' => 'pokedex#raiders'
+  get '/pvp' => 'pokedex#pvp'
+  get '/purchase_stats' => 'pokedex#purchase_stats'
   get '/released_pokemon' => 'pokedex#released_pokemon'
   get '/released_shinies' => 'pokedex#released_shinies'
   get '/unreleased_shinies' => 'pokedex#unreleased_shinies'
-  get '/purchase_stats' => 'pokedex#purchase_stats'
 
   namespace :api do
     resources :players
