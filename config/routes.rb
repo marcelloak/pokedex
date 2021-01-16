@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get '/routes' => 'pokedex#routes'
   get '/needed_pokemon' => 'pokedex#needed_pokemon'
+  get '/needed_candies' => 'pokedex#needed_candies'
   get '/unseen/uncaught_pokemon' => 'pokedex#unseen_uncaught'
   get '/raiders' => 'pokedex#raiders'
   get '/pvp' => 'pokedex#pvp'
