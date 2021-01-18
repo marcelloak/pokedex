@@ -190,7 +190,19 @@ export default function Form(props) {
       return column.name !== 'id' && column.name !== 'created_at' && column.name !== 'updated_at'
     })
     return columns.map((column, index) => {
-      if (column.name.includes('_id') && foreignKeys[column.name]) {
+      if (column.name in props.table.enums) {
+        return (
+          <div className='enum-field param-field' key={index}>
+            <label htmlFor={column.name}>{titleCase(column.name)}: </label>
+            <select onChange={onChange} name={column.name} value={params[column.name] || ''}>
+              {Object.keys(props.table.enums[column.name]).map ((key, index) =>{
+                return <option key={index} value={key}>{key}</option>
+              })}
+            </select>
+          </div>
+        )
+      }
+      else if (column.name.includes('_id') && foreignKeys[column.name]) {
         return (
           <div className='foreign-key-field param-field' key={index}>
             <label htmlFor={column.name}>{titleCase(column.name)}: </label>
