@@ -1,4 +1,6 @@
 class CostumeCaughtTimeline < ApplicationRecord
+  enum pvp: [ "", :Great, :Ultra, :Master, :Little ]
+
   belongs_to :current_costume, :class_name => 'Costume'
   belongs_to :target_costume, :class_name => 'Costume'
   belongs_to :fast_move

@@ -1,4 +1,6 @@
 class PokemonCaughtTimeline < ApplicationRecord
+  enum pvp: [ "", :Great, :Ultra, :Master, :Little ]
+
   belongs_to :current_evolution, :class_name => 'Pokemon'
   belongs_to :target_evolution, :class_name => 'Pokemon'
   belongs_to :fast_move

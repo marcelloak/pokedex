@@ -1,4 +1,6 @@
 class FormCaughtTimeline < ApplicationRecord
+  enum pvp: [ "", :Great, :Ultra, :Master, :Little ]
+
   belongs_to :current_form, :class_name => 'Form'
   belongs_to :target_form, :class_name => 'Form'
   belongs_to :fast_move
