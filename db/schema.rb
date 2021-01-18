@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_12_212809) do
+ActiveRecord::Schema.define(version: 2021_01_18_194026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -470,7 +470,6 @@ ActiveRecord::Schema.define(version: 2021_01_12_212809) do
     t.boolean "gender_variant"
     t.boolean "legendary"
     t.boolean "mythical"
-    t.string "gendered"
     t.string "region"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -479,6 +478,7 @@ ActiveRecord::Schema.define(version: 2021_01_12_212809) do
     t.bigint "family_id"
     t.bigint "primary_type_id"
     t.bigint "secondary_type_id"
+    t.integer "gendered"
     t.index ["evolves_from_id"], name: "index_pokemons_on_evolves_from_id"
     t.index ["family_id"], name: "index_pokemons_on_family_id"
     t.index ["generation_id"], name: "index_pokemons_on_generation_id"

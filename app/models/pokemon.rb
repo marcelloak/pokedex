@@ -1,4 +1,6 @@
 class Pokemon < ApplicationRecord
+  enum gendered: [ :MF, :M, :F, :GL ]
+
   belongs_to :generation
   belongs_to :family
   belongs_to :primary_type, :class_name => 'Type'
