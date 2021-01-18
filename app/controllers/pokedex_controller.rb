@@ -132,6 +132,13 @@ class PokedexController < ApplicationController
     render :json => conversion(needed)
   end
 
+  def needed_candies
+    needed = []
+    # Get stardust needed and have first
+
+    render :json => conversion(needed)
+  end
+
   def unseen_uncaught
     needed = []
     # Get seen count and total and caught count and total and put them in the arrays first
@@ -274,7 +281,7 @@ class PokedexController < ApplicationController
   end
   
   def routes
-    render :json => ['needed_pokemon', 'unseen/uncaught_pokemon', 'raiders', 'pvp', 'purchase_stats', 'released_pokemon', 'released_shinies', 'unreleased_shinies']
+    render :json => ['needed_pokemon', 'needed_candies', 'unseen/uncaught_pokemon', 'raiders', 'pvp', 'purchase_stats', 'released_pokemon', 'released_shinies', 'unreleased_shinies']
   end
 
   def conversion(records)
